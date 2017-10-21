@@ -22,11 +22,14 @@
 #include <boost/thread.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/xpressive/xpressive_dynamic.hpp>
+
+#include <boost/property_tree/ptree.hpp>    
+#include <boost/property_tree/ini_parser.hpp>  
+
 #include <boost/log/core.hpp>
 #include <boost/log/trivial.hpp>
 #include <boost/log/expressions.hpp>  
-#include <boost/property_tree/ptree.hpp>    
-#include <boost/property_tree/ini_parser.hpp>    
+  
 #include <boost/log/utility/setup/file.hpp>
 #include <boost/log/utility/setup/console.hpp>
 #include <boost/log/utility/setup/common_attributes.hpp>
