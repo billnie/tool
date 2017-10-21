@@ -24,8 +24,7 @@
 #include <boost/xpressive/xpressive_dynamic.hpp>
 #include <boost/log/core.hpp>
 #include <boost/log/trivial.hpp>
-#include <boost/log/expressions.hpp>
-#include <iostream>    
+#include <boost/log/expressions.hpp>  
 #include <boost/property_tree/ptree.hpp>    
 #include <boost/property_tree/ini_parser.hpp>    
 #include <boost/log/utility/setup/file.hpp>
