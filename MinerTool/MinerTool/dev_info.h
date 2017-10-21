@@ -18,11 +18,10 @@ public:
 	}
 public:
 	static std::string INDEX;
-	static std::string TO;
-	static std::string FROM;
-	static std::string MSG;
-	static std::string SPLITTER;
-	static std::string TAG;
+	static std::string DEVS;
+	static std::string STATUS;
+	static std::string id;
+
 private:
 	int index_;
 	std::string to_;
