@@ -190,11 +190,11 @@ int CDialogPool::addListNote(dev_info &info, string host)
 
 int CDialogPool::saveParam()
 {
-	boost::property_tree::ptree pt;
-	boost::property_tree::ini_parser::read_ini("bittool.ini", pt);  // 打开读文件  
-	pt.put<int>("ip", CheckDlgButton(IDC_POOL1, BST_CHECKED));
-	pt.put<int>("ip", CheckDlgButton(IDC_POOL2, BST_CHECKED));
-	pt.put<int>("ip", CheckDlgButton(IDC_POOL3, BST_CHECKED));
-	boost::property_tree::ini_parser::write_ini("bittool.ini", pt);
+	//boost::property_tree::ptree pt;
+	//boost::property_tree::ini_parser::read_ini("bittool.ini", pt);  // 打开读文件  
+	//pt.put<int>("ip", CheckDlgButton(IDC_POOL1, BST_CHECKED));
+	//pt.put<int>("ip", CheckDlgButton(IDC_POOL2, BST_CHECKED));
+	//pt.put<int>("ip", CheckDlgButton(IDC_POOL3, BST_CHECKED));
+	//boost::property_tree::ini_parser::write_ini("bittool.ini", pt);
 	return 0;
 }
