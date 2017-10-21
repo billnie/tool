@@ -6,7 +6,7 @@
 #include "afxcmn.h"
 #include	"DialogVol.h"
 #include	"DialogPool.h"
-
+#include "DialogFirmware.h"
 class CMinerToolView : public CFormView
 {
 protected: // 仅从序列化创建
@@ -19,6 +19,7 @@ public:
 #endif
 	CDialogPool m_dlgPool;
 	CDialogVol	m_dlgVol;
+	CDialogFirmware m_dlgFirmware;
 	CDialog *m_pPage[3];
 	int m_cur_mode_sel;
 // 特性

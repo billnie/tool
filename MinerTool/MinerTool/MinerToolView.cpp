@@ -54,7 +54,9 @@ BOOL CMinerToolView::PreCreateWindow(CREATESTRUCT& cs)
 	// TODO: 在此处通过修改
 	//  CREATESTRUCT cs 来修改窗口类或样式
 
-	return CFormView::PreCreateWindow(cs);
+	BOOL bret =  CFormView::PreCreateWindow(cs);
+	
+	return bret;
 }
 
 void CMinerToolView::OnInitialUpdate()
@@ -62,6 +64,7 @@ void CMinerToolView::OnInitialUpdate()
 	CFormView::OnInitialUpdate();
 	GetParentFrame()->RecalcLayout();
 	ResizeParentToFit();
+	
 	CRect rs;
 	m_tabCtrl.GetClientRect(&rs);
 	//调整子对话框在父窗口中的位置
@@ -73,20 +76,26 @@ void CMinerToolView::OnInitialUpdate()
 	m_dlgPool.Create(IDD_DLG_POOL, &m_tabCtrl);
 	m_dlgPool.MoveWindow(&rs);
 	//分别设置隐藏和显示
-	m_dlgPool.ShowWindow(true);
+	m_dlgPool.ShowWindow(false);
 
-	m_dlgVol.Create(IDD_DLG_POOL, &m_tabCtrl);
+	m_dlgVol.Create(IDD_DLG_VOL, &m_tabCtrl);
 	m_dlgVol.MoveWindow(&rs);
 	//分别设置隐藏和显示
-	m_dlgVol.ShowWindow(false);
+	m_dlgVol.ShowWindow(true);
+
+	m_dlgFirmware.Create(IDD_DLG_FIREWARE, &m_tabCtrl);
+	m_dlgFirmware.MoveWindow(&rs);
+	//分别设置隐藏和显示
+	m_dlgFirmware.ShowWindow(false);
 
 	int i = 0;
 	m_tabCtrl.InsertItem(i++, TEXT(" 频率 & 电压 "));
 	m_tabCtrl.InsertItem(i++, TEXT(" 矿池相关 "));
+	m_tabCtrl.InsertItem(i++, TEXT(" 固件升级 "));
 	i = 0;
 	m_pPage[i++] = &m_dlgVol;
 	m_pPage[i++] = &m_dlgPool;
-
+	m_pPage[i++] = &m_dlgFirmware;
 }
 
 
@@ -142,6 +151,8 @@ void CMinerToolView::OnSize(UINT nType, int cx, int cy)
 	if (m_tabCtrl.GetSafeHwnd() != NULL && m_dlgVol.GetSafeHwnd()!=NULL) {
 		CRect rect;
 		GetClientRect(rect);
+		rect.top += 60;
+		rect.bottom -= 60;
 		m_tabCtrl.MoveWindow(rect);
 		m_tabCtrl.GetWindowRect(rect);
 		ScreenToClient(rect);
@@ -152,6 +163,7 @@ void CMinerToolView::OnSize(UINT nType, int cx, int cy)
 
 		m_dlgPool.MoveWindow(rect);
 		m_dlgVol.MoveWindow(rect);
+		m_dlgFirmware.MoveWindow(rect);
 	}
 }
 
