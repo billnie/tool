@@ -194,6 +194,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dev_info.h" />
     <ClInclude Include="DialogFirmware.h" />
     <ClInclude Include="DialogPool.h" />
     <ClInclude Include="DialogVol.h" />
@@ -206,6 +207,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="dev_info.cpp" />
     <ClCompile Include="DialogFirmware.cpp" />
     <ClCompile Include="DialogPool.cpp" />
     <ClCompile Include="DialogVol.cpp" />

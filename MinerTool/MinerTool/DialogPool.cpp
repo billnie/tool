@@ -13,6 +13,8 @@
 #include <boost/property_tree/xml_parser.hpp>  
 #include <boost/typeof/typeof.hpp>  
 #include <boost/foreach.hpp>  
+
+
 // CDialogPool 对话框
 
 IMPLEMENT_DYNAMIC(CDialogPool, CDialogEx)
@@ -91,10 +93,65 @@ BOOL CDialogPool::OnInitDialog()
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 异常: OCX 属性页应返回 FALSE
 }
+std::string dev_info::INDEX = "index";
+std::string dev_info::DEVS = "DEVS";
+std::string dev_info::STATUS = "STATUS";
+std::string dev_info::id = "id";
 
-
-int CDialogPool::AddNote(string resp)
+int CDialogPool::AddNote(string resp, string host)
 {
+	if (resp.length() > 0) {
+		dev_info info;
+		std::istringstream iss;
+		iss.str(resp.c_str());
+		boost::property_tree::ptree parser;
+		boost::property_tree::json_parser::read_json(iss, parser);
+		boost::property_tree::ptree sms_array = parser.get_child(dev_info::DEVS);
+		BOOST_FOREACH(boost::property_tree::ptree::value_type &v, sms_array)
+		{
+			boost::property_tree::ptree p = v.second;
+			dev_item it;
+			it.ASC = p.get<std::string>("ASC");
+			it.Name = p.get<std::string>("Name");
+			it.Enabled = p.get<std::string>("Enabled");
+			it.temperature = p.get<double>("temperature");
+			info.items.push_back(it);
+		}
+		boost::property_tree::ptree sms_array = parser.get_child(dev_info::STATUS);
+		BOOST_FOREACH(boost::property_tree::ptree::value_type &v, sms_array)
+		{
+			boost::property_tree::ptree p = v.second;
+			dev_status it;
+			it.Code = p.get<std::string>("Code");
+			it.Description = p.get<std::string>("Description");
+			it.Msg = p.get<std::string>("Msg");
+			it.STATUS = p.get<std::string>("STATUS");
+			it.When = p.get<double>("When");
+			info.status.push_back(it);
+		}
+		addListNote(info, host);
+	}
+	
+	return 0;
+}
+
+
+int CDialogPool::addListNote(dev_info &info, string host)
+{
+	int cnt, cnx;
+	int ret;
+	int fsid, gfsid;
+	int sub;
+	int direct = 0;
+	int x, y;
+	CString str1, str2, str3, str;
+	string ss;
+	cnt = m_listCtrl.GetItemCount();
+	cnt = m_listCtrl.InsertItem(cnt, host.c_str());
+	m_listCtrl.SetItemText(cnt, 1, info.status[0].Description.c_str());
+	m_listCtrl.SetItemText(cnt, 2, info.status[0].STATUS.c_str());
+	m_listCtrl.SetItemText(cnt, 3, info.status[0].Msg.c_str());
+//	m_listCtrl.SetItemText(cnt, 4, "未开始");
 
 	return 0;
 }

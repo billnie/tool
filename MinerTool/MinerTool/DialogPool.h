@@ -1,6 +1,7 @@
 #pragma once
 #include "afxcmn.h"
 #include	<string>
+#include	"dev_info.h"
 using namespace std;
 // CDialogPool ¶Ô»°¿ò
 
@@ -25,5 +26,6 @@ public:
 	afx_msg void OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult);
 	CListCtrl m_listCtrl;
 	virtual BOOL OnInitDialog();
-	int AddNote(string resp);
+	int AddNote(string resp, string host);
+	int addListNote(dev_info &info, string host);
 };

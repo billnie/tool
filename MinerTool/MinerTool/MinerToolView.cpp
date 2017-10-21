@@ -319,13 +319,14 @@ void CMinerToolView::OnBnClickedBtnOk()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	CString strIp, strStart, strStop, strError;
-	string resp;
+	string resp, host;
 	int ret =0;
 	GetDlgItemText(IDC_EDIT_IP, strIp);
 	GetDlgItemText(IDC_EDIT_IPST, strStart);
 	GetDlgItemText(IDC_EDIT_IPED, strStop);
-	resp = xmain("192.168.3.16");
-	m_dlgPool.AddNote(resp);
+	host = "192.168.3.16";
+	resp = xmain(host);
+	m_dlgPool.AddNote(resp,host);
 	cregex reg_ip = cregex::compile("(25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])[.](25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[.](25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[.](25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])");
 	/* 定义正则表达
 	式 */

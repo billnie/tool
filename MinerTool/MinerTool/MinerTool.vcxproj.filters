@@ -48,6 +48,9 @@
     <ClInclude Include="DialogFirmware.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="dev_info.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MinerTool.cpp">
@@ -72,6 +75,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="DialogFirmware.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="dev_info.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
