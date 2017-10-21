@@ -122,7 +122,6 @@ int post(const string& host, const string& port, const string& page, const strin
 		// a maximum size to the streambuf constructor.
 		boost::asio::streambuf response;
 		boost::asio::read_until(socket, response, "\r\n");
-
 		// Check that response is OK.
 		std::istream response_stream(&response);
 		std::string http_version;
@@ -155,7 +154,6 @@ int post(const string& host, const string& port, const string& page, const strin
 			boost::asio::transfer_at_least(1), error))
 		{
 		}
-
 		//响应有数据
 		if (response.size())
 		{
@@ -178,9 +176,8 @@ int post(const string& host, const string& port, const string& page, const strin
 	return 0;
 }
 
-string xmain(string host)
+string xdevs(string host)
 {
-//	string host = "192.168.3.16";
 	string port = "80";
 	string page = "/devs";
 	string data = "";
@@ -193,12 +190,51 @@ string xmain(string host)
 	DT(reponse_data.c_str());
 	return reponse_data;
 }
+string xgetminner(string host)
+{
+	string port = "80";
+	string page = "/getminer";
+	string data = "";
+	string reponse_data;
+
+	int ret = post(host, port, page, data, reponse_data);
+	if (ret != 0)
+		std::cout << "error_code:" << ret << std::endl;
+	std::cout << reponse_data << std::endl;
+	DT(reponse_data.c_str());
+	return reponse_data;
+}
 string xpoolset(string host, string data)
 {
-	//	string host = "192.168.3.16";
 	string port = "80";
 	string page = "/saveminner";
-//	string data = "";
+	string reponse_data;
+
+	int ret = post(host, port, page, data, reponse_data);
+	if (ret != 0)
+		std::cout << "error_code:" << ret << std::endl;
+	std::cout << reponse_data << std::endl;
+	DT(reponse_data.c_str());
+	return reponse_data;
+}
+
+string xnet(string host)
+{
+	string port = "80";
+	string page = "/net";
+	string reponse_data;
+
+	int ret = post(host, port, page, "", reponse_data);
+	if (ret != 0)
+		std::cout << "error_code:" << ret << std::endl;
+	std::cout << reponse_data << std::endl;
+	DT(reponse_data.c_str());
+	return reponse_data;
+}
+string xnetset(string host, string data)
+{
+	string port = "80";
+	string page = "/netset";
 	string reponse_data;
 
 	int ret = post(host, port, page, data, reponse_data);
@@ -339,7 +375,7 @@ void CMinerToolView::OnBnClickedBtnOk()
 	GetDlgItemText(IDC_EDIT_IPST, strStart);
 	GetDlgItemText(IDC_EDIT_IPED, strStop);
 	host = "192.168.3.16";
-	resp = xmain(host);
+	resp = xdevs(host);
 	m_dlgPool.AddNote(resp,host);
 	cregex reg_ip = cregex::compile("(25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])[.](25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[.](25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[.](25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])");
 	/* 定义正则表达
@@ -349,7 +385,6 @@ void CMinerToolView::OnBnClickedBtnOk()
 			int st, ed;
 			st = ::atoi((LPCTSTR)strStart);
 			ed = ::atoi((LPCTSTR)strStop);
-			//
 			//合法的网段地址
 			if (st > 0 && st < 255 && ed >0 && ed < 255 && ed >= st) {
 				ret = 1;
