@@ -30,7 +30,7 @@
 #include <boost/log/utility/setup/console.hpp>
 #include <boost/log/utility/setup/common_attributes.hpp>
 #include <boost/log/common.hpp>
-
+#include "dev_pool.h"
 namespace logging = boost::log;
 namespace sinks = boost::log::sinks;
 namespace attrs = boost::log::attributes;
@@ -353,7 +353,14 @@ void CMinerToolView::OnBnClickedBtnImport()
 
 void CMinerToolView::OnBnClickedBtnDel()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	dev_pools dps;
+	dev_pool dp;
+	dp.url = "";
+	dp.username = "";
+	dp.password = "";
+	dp.bPrefix = true;
+	dps.pools.push_back(dp);
+
 }
 
 

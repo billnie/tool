@@ -77,8 +77,8 @@ BOOL CDialogPool::OnInitDialog()
 	int nWidth;
 	m_listCtrl.GetClientRect(&rect);					//获取客户区宽度
 	nWidth = rect.Width();
-	m_listCtrl.SetColumnWidth(0, 60);	//测试条件1 
-	m_listCtrl.SetColumnWidth(1, 58);	//测试条件1 
+	m_listCtrl.SetColumnWidth(0, 120);	//测试条件1 
+	m_listCtrl.SetColumnWidth(1, 78);	//测试条件1 
 	nWidth = 40;
 	i = 2;
 	m_listCtrl.SetColumnWidth(i++, nWidth);	//测试条件1 
@@ -117,8 +117,8 @@ int CDialogPool::AddNote(string resp, string host)
 			it.temperature = p.get<double>("temperature");
 			info.items.push_back(it);
 		}
-		boost::property_tree::ptree sms_array = parser.get_child(dev_info::STATUS);
-		BOOST_FOREACH(boost::property_tree::ptree::value_type &v, sms_array)
+		boost::property_tree::ptree array = parser.get_child(dev_info::STATUS);
+		BOOST_FOREACH(boost::property_tree::ptree::value_type &v, array)
 		{
 			boost::property_tree::ptree p = v.second;
 			dev_status it;
