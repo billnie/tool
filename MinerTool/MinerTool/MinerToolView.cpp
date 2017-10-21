@@ -19,8 +19,9 @@
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/xpressive/xpressive_dynamic.hpp>
 
-
+using namespace boost::xpressive;
 
 using boost::asio::ip::tcp;
 using std::string;
@@ -248,6 +249,29 @@ CMinerToolDoc* CMinerToolView::GetDocument() const // 非调试版本是内联的
 void CMinerToolView::OnBnClickedBtnOk()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	CString strIp, strStart, strStop, strError;
+	int ret =0;
+	GetDlgItemText(IDC_EDIT_IP, strIp);
+	GetDlgItemText(IDC_EDIT_IPST, strStart);
+	GetDlgItemText(IDC_EDIT_IPED, strStop);
+	cregex reg_ip = cregex::compile("(25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])[.](25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[.](25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[.](25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])");
+	/* 定义正则表达
+	式 */
+	if (regex_match((LPCTSTR)strIp, reg_ip)) {
+		if (strIp.GetLength() > 3 && strStart.GetLength() > 1 && strStop.GetLength() > 1) {
+			int st, ed;
+			st = ::atoi((LPCTSTR)strStart);
+			ed = ::atoi((LPCTSTR)strStop);
+			//
+			//合法的网段地址
+			if (st > 0 && st < 255 && ed >0 && ed < 255 && ed >= st) {
+				xmain();
+				ret = 1;
+			}
+		}
+	}
+	
+	
 }
 
 
