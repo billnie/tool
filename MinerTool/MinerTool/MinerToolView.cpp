@@ -8,6 +8,8 @@
 #ifndef SHARED_HANDLERS
 #include "MinerTool.h"
 #endif
+#include <io.h>  
+#include <fcntl.h> 
 
 #include <iostream>
 #include <istream>
@@ -20,8 +22,24 @@
 #include <boost/thread.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/xpressive/xpressive_dynamic.hpp>
+#include <boost/log/core.hpp>
+#include <boost/log/trivial.hpp>
+#include <boost/log/expressions.hpp>
 
+#include <boost/log/utility/setup/file.hpp>
+#include <boost/log/utility/setup/console.hpp>
+#include <boost/log/utility/setup/common_attributes.hpp>
+#include <boost/log/common.hpp>
+
+namespace logging = boost::log;
+namespace sinks = boost::log::sinks;
+namespace attrs = boost::log::attributes;
+namespace src = boost::log::sources;
+namespace expr = boost::log::expressions;
+namespace keywords = boost::log::keywords;
 using namespace boost::xpressive;
+
+using namespace std;
 
 using boost::asio::ip::tcp;
 using std::string;
@@ -29,6 +47,42 @@ using std::string;
 #define new DEBUG_NEW
 #endif
 
+void InitConsoleWindow(void)
+{
+	int hCrt;
+	FILE *hf;
+	AllocConsole();
+	hCrt = _open_osfhandle((long)GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT);
+	hf = _fdopen(hCrt, "w");
+	*stdout = *hf;
+	setvbuf(stdout, NULL, _IONBF, 0);
+}
+void DT(const char * strOutputString, ...)
+{
+#ifdef NDEBUG
+	return;
+#endif
+	char strBuffer[4096] = { 0 };
+	va_list vlArgs;
+	va_start(vlArgs, strOutputString);
+	//	_vsnprintf(strBuffer, sizeof(strBuffer) - 1, strOutputString, vlArgs);
+	vsprintf(strBuffer, strOutputString, vlArgs);
+	va_end(vlArgs);
+
+	SYSTEMTIME sTime;
+	GetLocalTime(&sTime);
+	TCHAR chBuf[100] = { 0 };
+	//wsprintf(chBuf,_T("%u/%u/%u %u:%u:%u:%u %d\r\n"),sTime.wYear, sTime.wMonth, sTime.wDay,sTime.wHour, sTime.wMinute, sTime.wSecond,
+	//	sTime.wMilliseconds,sTime.wDayOfWeek);
+	wsprintf(chBuf, _T("%02u:%02u:%02u-->"), sTime.wHour, sTime.wMinute, sTime.wSecond,
+		sTime.wMilliseconds);
+	OutputDebugStringA(chBuf);
+#ifdef _DEBUG
+	BOOST_LOG_TRIVIAL(info) << strBuffer;
+#endif
+	OutputDebugStringA(strBuffer);
+	OutputDebugStringA("\r\n");
+}
 int post(const string& host, const string& port, const string& page, const string& data, string& reponse_data)
 {
 	try
@@ -124,12 +178,12 @@ int post(const string& host, const string& port, const string& page, const strin
 	return 0;
 }
 
-int xmain()
+string xmain(string host)
 {
-	string host = "127.0.0.1";
+//	string host = "192.168.3.16";
 	string port = "80";
-	string page = "/auth/login";
-	string data = "user_name=linbc&password=a";
+	string page = "/devs";
+	string data = "";
 	string reponse_data;
 
 	int ret = post(host, port, page, data, reponse_data);
@@ -137,8 +191,8 @@ int xmain()
 		std::cout << "error_code:" << ret << std::endl;
 
 	std::cout << reponse_data << std::endl;
-
-	return 0;
+	DT(reponse_data.c_str());
+	return reponse_data;
 }
 // CMinerToolView
 
@@ -187,7 +241,22 @@ void CMinerToolView::OnInitialUpdate()
 	CFormView::OnInitialUpdate();
 	GetParentFrame()->RecalcLayout();
 	ResizeParentToFit();
-	
+	InitConsoleWindow();
+	printf("hello");
+	boost::log::add_file_log(
+		keywords::auto_flush = true,
+		keywords::file_name = "sample_%N.log",// AppHolder::Instance().config().log_folder + "/sign_%Y-%m-%d_%H-%M-%S.%N.log",
+		keywords::rotation_size = 10 * 1024 * 1024,
+		keywords::time_based_rotation = sinks::file::rotation_at_time_point(0, 0, 0),
+		keywords::min_free_space = 3 * 1024 * 1024,
+		keywords::format = "[%TimeStamp%]: %Message%"
+		);
+	//	logging::add_file_log("log.log");
+	//	logging::core::get()->set_logging_enabled(true);
+	boost::log::add_common_attributes();
+
+	BOOST_LOG_TRIVIAL(trace) << "A trace severity message";
+
 	CRect rs;
 	m_tabCtrl.GetClientRect(&rs);
 	//调整子对话框在父窗口中的位置
@@ -254,6 +323,7 @@ void CMinerToolView::OnBnClickedBtnOk()
 	GetDlgItemText(IDC_EDIT_IP, strIp);
 	GetDlgItemText(IDC_EDIT_IPST, strStart);
 	GetDlgItemText(IDC_EDIT_IPED, strStop);
+	xmain("192.168.3.16");
 	cregex reg_ip = cregex::compile("(25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])[.](25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[.](25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[.](25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])");
 	/* 定义正则表达
 	式 */
@@ -265,7 +335,7 @@ void CMinerToolView::OnBnClickedBtnOk()
 			//
 			//合法的网段地址
 			if (st > 0 && st < 255 && ed >0 && ed < 255 && ed >= st) {
-				xmain();
+				
 				ret = 1;
 			}
 		}

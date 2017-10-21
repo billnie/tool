@@ -11,8 +11,6 @@
 #define IDD_DLG_VOL                     311
 #define IDD_DIALOG2                     312
 #define IDD_DLG_POOL                    312
-#define IDD_DLG_VOL1                    313
-#define IDD_DIALOG3                     315
 #define IDD_DLG_FIREWARE                315
 #define IDC_BTN_OK                      1000
 #define IDC_EDIT_IP                     1001
