@@ -24,11 +24,21 @@ CDialogVol::~CDialogVol()
 void CDialogVol::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_LIST1, m_listCtrl);
 }
 
 
 BEGIN_MESSAGE_MAP(CDialogVol, CDialogEx)
+	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, &CDialogVol::OnLvnItemchangedList1)
 END_MESSAGE_MAP()
 
 
 // CDialogVol 消息处理程序
+
+
+void CDialogVol::OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
+	// TODO: 在此添加控件通知处理程序代码
+	*pResult = 0;
+}

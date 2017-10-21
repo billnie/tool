@@ -22,10 +22,14 @@
 #include <boost/thread.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/xpressive/xpressive_dynamic.hpp>
+
+#include <boost/property_tree/ptree.hpp>    
+#include <boost/property_tree/ini_parser.hpp>  
+
 #include <boost/log/core.hpp>
 #include <boost/log/trivial.hpp>
-#include <boost/log/expressions.hpp>
-
+#include <boost/log/expressions.hpp>  
+  
 #include <boost/log/utility/setup/file.hpp>
 #include <boost/log/utility/setup/console.hpp>
 #include <boost/log/utility/setup/common_attributes.hpp>
@@ -291,7 +295,7 @@ void CMinerToolView::OnInitialUpdate()
 	GetParentFrame()->RecalcLayout();
 	ResizeParentToFit();
 	InitConsoleWindow();
-	printf("hello");
+	
 	boost::log::add_file_log(
 		keywords::auto_flush = true,
 		keywords::file_name = "sample_%N.log",// AppHolder::Instance().config().log_folder + "/sign_%Y-%m-%d_%H-%M-%S.%N.log",
@@ -337,6 +341,27 @@ void CMinerToolView::OnInitialUpdate()
 	m_pPage[i++] = &m_dlgVol;
 	m_pPage[i++] = &m_dlgPool;
 	m_pPage[i++] = &m_dlgFirmware;
+
+	string sip;
+	//读取参数
+	boost::property_tree::ptree pt;
+	try
+	{
+//		boost::property_tree::ini_parser::read_ini("./config.ini", pt);
+		boost::property_tree::ini_parser::read_ini("./bittool.ini", pt);  // 打开读文件  
+																		//boost::property_tree::ini_parser::write_ini("E:\\Projects\\boost_property_tree\\Overlay.ini", pt); // 写到文件    
+		sip = pt.get<std::string>("ip");
+		SetDlgItemText(IDC_EDIT_IP, sip.c_str());
+		sip = pt.get<std::string>("startip");
+		SetDlgItemText(IDC_EDIT_IPST, sip.c_str());
+		sip = pt.get<std::string>("endip");
+		SetDlgItemText(IDC_EDIT_IPED, sip.c_str());
+	}
+	catch (std::exception e)
+	{
+		cout << e.what();
+		boost::property_tree::ini_parser::write_ini("bittool.ini", pt);
+	}
 }
 
 
@@ -376,6 +401,13 @@ void CMinerToolView::OnBnClickedBtnOk()
 	host = "192.168.3.16";
 	resp = xdevs(host);
 	m_dlgPool.AddNote(resp,host);
+	boost::property_tree::ptree pt;
+	boost::property_tree::ini_parser::read_ini("bittool.ini", pt);  // 打开读文件  
+	pt.put<std::string>("ip", (LPCTSTR)strIp);
+	pt.put<std::string>("startip", (LPCTSTR)strStart);
+	pt.put<std::string>("endip", (LPCTSTR)strStop);
+	boost::property_tree::ini_parser::write_ini("bittool.ini", pt);
+	
 	cregex reg_ip = cregex::compile("(25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])[.](25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[.](25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[.](25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])");
 	/* 定义正则表达
 	式 */

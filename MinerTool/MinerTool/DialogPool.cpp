@@ -14,7 +14,8 @@
 #include <boost/typeof/typeof.hpp>  
 #include <boost/foreach.hpp>  
 
-
+#include <boost/property_tree/ptree.hpp>    
+#include <boost/property_tree/ini_parser.hpp>  
 // CDialogPool 对话框
 
 IMPLEMENT_DYNAMIC(CDialogPool, CDialogEx)
@@ -90,6 +91,35 @@ BOOL CDialogPool::OnInitDialog()
 	m_listCtrl.SetColumnWidth(i++, nWidth);	//测试条件1 
 	m_listCtrl.SetColumnWidth(i++, nWidth);	//测试条件1 
 
+	//读取配置参数
+	string sip;
+	int st;
+	//读取参数
+	boost::property_tree::ptree pt;
+	try
+	{
+		//		boost::property_tree::ini_parser::read_ini("./config.ini", pt);
+		boost::property_tree::ini_parser::read_ini("./bittool.ini", pt);  // 打开读文件  
+																	  //boost::property_tree::ini_parser::write_ini("E:\\Projects\\boost_property_tree\\Overlay.ini", pt); // 写到文件    
+		st = pt.get<int>("Pool.poo11");
+		CheckDlgButton(IDC_POOL1, st);
+		st = pt.get<int>("Pool.poo12");
+		CheckDlgButton(IDC_POOL2, st);
+		st = pt.get<int>("Pool.poo13");
+		CheckDlgButton(IDC_POOL3, st);
+
+		st = pt.get<int>("Pool.suffix1");
+		CheckDlgButton(IDC_POOL1, st);
+		st = pt.get<int>("Pool.suffix2");
+		CheckDlgButton(IDC_POOL2, st);
+		st = pt.get<int>("Pool.suffix3");
+		CheckDlgButton(IDC_POOL3, st);
+	}
+	catch (std::exception e)
+	{
+		cout << e.what();
+		boost::property_tree::ini_parser::write_ini("bittool.ini", pt);
+	}
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 异常: OCX 属性页应返回 FALSE
 }

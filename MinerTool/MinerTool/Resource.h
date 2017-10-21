@@ -38,7 +38,6 @@
 #define IDC_EDIT_PL3NAME                1019
 #define IDC_EDIT_PL3PWD                 1020
 #define IDC_RADIO_PL3IP                 1021
-#define IDC_RADIO_PL1NONE3              1022
 #define IDC_RADIO_PL3NONE               1022
 
 // Next default values for new objects
