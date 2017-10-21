@@ -29,4 +29,6 @@ public:
 	int AddNote(string resp, string host);
 	int addListNote(dev_info &info, string host);
 	int saveParam();
+	afx_msg void OnBnClickedBtnCheck();
+	afx_msg void OnBnClickedBtnSet();
 };

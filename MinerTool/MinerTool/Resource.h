@@ -39,6 +39,9 @@
 #define IDC_EDIT_PL3PWD                 1020
 #define IDC_RADIO_PL3IP                 1021
 #define IDC_RADIO_PL3NONE               1022
+#define IDC_BTN_SET                     1023
+#define IDC_BTN_SET2                    1024
+#define IDC_BTN_CHECK                   1024
 
 // Next default values for new objects
 // 
@@ -46,7 +49,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        317
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1010
+#define _APS_NEXT_CONTROL_VALUE         1024
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

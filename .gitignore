@@ -8,3 +8,6 @@ ipch
 MinerTool/MinerTool.opensdf
 MinerTool/MinerTool/sample_0.log
 MinerTool/MinerTool/MinerTool.aps
+MinerTool/MinerTool/log/20171021_231809_1.log
+*.log
+MinerTool/MinerTool/MinerTool.aps

@@ -39,6 +39,8 @@ void CDialogPool::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDialogPool, CDialogEx)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, &CDialogPool::OnLvnItemchangedList1)
+	ON_BN_CLICKED(IDC_BTN_CHECK, &CDialogPool::OnBnClickedBtnCheck)
+	ON_BN_CLICKED(IDC_BTN_SET, &CDialogPool::OnBnClickedBtnSet)
 END_MESSAGE_MAP()
 
 
@@ -49,7 +51,7 @@ void CDialogPool::OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
 	// TODO: 在此添加控件通知处理程序代码
-
+	saveParam();
 	*pResult = 0;
 }
 
@@ -94,27 +96,35 @@ BOOL CDialogPool::OnInitDialog()
 
 	//读取配置参数
 	string sip;
-	int st;
+	int st=0;
 	//读取参数
 	boost::property_tree::ptree pt;
 	try
 	{
-		//		boost::property_tree::ini_parser::read_ini("./config.ini", pt);
-		boost::property_tree::ini_parser::read_ini("./bittool.ini", pt);  // 打开读文件  
-																	  //boost::property_tree::ini_parser::write_ini("E:\\Projects\\boost_property_tree\\Overlay.ini", pt); // 写到文件    
-		st = pt.get<int>("Pool.poo11");
+		boost::property_tree::ini_parser::read_ini("./bittool.ini", pt);  // 打开读文件  			
+		st = pt.get<int>("Pool.pool1",1);
 		CheckDlgButton(IDC_POOL1, st);
-		st = pt.get<int>("Pool.poo12");
+		st = pt.get<int>("Pool.poo12",1);
 		CheckDlgButton(IDC_POOL2, st);
-		st = pt.get<int>("Pool.poo13");
+		st = pt.get<int>("Pool.poo13",1);
 		CheckDlgButton(IDC_POOL3, st);
 
-		//st = pt.get<int>("Pool.suffix1");
-		//CheckDlgButton(IDC_POOL1, st);
-		//st = pt.get<int>("Pool.suffix2");
-		//CheckDlgButton(IDC_POOL2, st);
-		//st = pt.get<int>("Pool.suffix3");
-		//CheckDlgButton(IDC_POOL3, st);
+		st = pt.get<int>("Pool.suffix1",1);
+		if (st = 1)
+			CheckRadioButton(IDC_RADIO_PL1IP, IDC_RADIO_PL1NONE, IDC_RADIO_PL1IP);
+		else
+			CheckRadioButton(IDC_RADIO_PL1IP, IDC_RADIO_PL1NONE, IDC_RADIO_PL1NONE);
+		st = pt.get<int>("Pool.suffix2",1);
+		if (st = 1)
+			CheckRadioButton(IDC_RADIO_PL2IP, IDC_RADIO_PL2NONE, IDC_RADIO_PL2IP);
+		else
+			CheckRadioButton(IDC_RADIO_PL2IP, IDC_RADIO_PL2NONE, IDC_RADIO_PL2NONE);
+
+		st = pt.get<int>("Pool.suffix3",1);
+		if (st = 1)
+			CheckRadioButton(IDC_RADIO_PL3IP, IDC_RADIO_PL3NONE, IDC_RADIO_PL3IP);
+		else
+			CheckRadioButton(IDC_RADIO_PL3IP, IDC_RADIO_PL3NONE, IDC_RADIO_PL3NONE);
 	}
 	catch (std::exception e)
 	{
@@ -190,11 +200,30 @@ int CDialogPool::addListNote(dev_info &info, string host)
 
 int CDialogPool::saveParam()
 {
-	//boost::property_tree::ptree pt;
-	//boost::property_tree::ini_parser::read_ini("bittool.ini", pt);  // 打开读文件  
-	//pt.put<int>("ip", CheckDlgButton(IDC_POOL1, BST_CHECKED));
-	//pt.put<int>("ip", CheckDlgButton(IDC_POOL2, BST_CHECKED));
-	//pt.put<int>("ip", CheckDlgButton(IDC_POOL3, BST_CHECKED));
-	//boost::property_tree::ini_parser::write_ini("bittool.ini", pt);
+	boost::property_tree::ptree pt;
+	boost::property_tree::ptree pool_setting;
+//	pool_setting = pt.get_child("Pool");
+	boost::property_tree::ini_parser::read_ini("bittool.ini", pt);  // 打开读文件  
+	pt.put<int>("Pool.pool1", IsDlgButtonChecked(IDC_POOL1));
+	pt.put<int>("Pool.pool2", IsDlgButtonChecked(IDC_POOL2));
+	pt.put<int>("Pool.pool3", IsDlgButtonChecked(IDC_POOL3));
+
+	pt.put<int>("Pool.suffix1", GetCheckedRadioButton(IDC_RADIO_PL1IP, IDC_RADIO_PL1NONE)== IDC_RADIO_PL1IP);
+	pt.put<int>("Pool.suffix2", GetCheckedRadioButton(IDC_RADIO_PL2IP, IDC_RADIO_PL2NONE)== IDC_RADIO_PL2IP);
+	pt.put<int>("Pool.suffix3", GetCheckedRadioButton(IDC_RADIO_PL3IP, IDC_RADIO_PL3NONE)== IDC_RADIO_PL3IP);
+	
+	boost::property_tree::ini_parser::write_ini("bittool.ini", pt);
 	return 0;
+}
+
+
+void CDialogPool::OnBnClickedBtnCheck()
+{
+	// TODO: 在此添加控件通知处理程序代码
+}
+
+
+void CDialogPool::OnBnClickedBtnSet()
+{
+	saveParam();
 }
