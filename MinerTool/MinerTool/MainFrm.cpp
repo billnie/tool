@@ -63,8 +63,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	DockControlBar(&m_wndToolBar);
 //	m_wndStatusBar.HideCaret();
 //	m_wndToolBar.show(FALSE, FALSE, TRUE);
-	SetMenu(NULL);
+//	SetMenu(NULL);
+	CRect rcWorkArea;
+	int w, h;
+	w = 800; h = 720;
+	SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, 0);
 	ShowControlBar(&m_wndToolBar, SW_HIDE, 0);
+	MoveWindow(rcWorkArea.Width()/2-w/2, rcWorkArea.Height()/2-h/2, w, h, 0);
 	return 0;
 }
 
@@ -76,8 +81,11 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	//  CREATESTRUCT cs 来修改窗口类或样式
 	//cs.style = WS_OVERLAPPED | WS_CAPTION | FWS_ADDTOTITLE
 	//	| WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
-	cs.style = WS_OVERLAPPED | WS_CAPTION | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
-
+	cs.style = WS_OVERLAPPED | WS_CAPTION | WS_MINIMIZEBOX | WS_MAXIMIZEBOX| WS_THICKFRAME;
+	//cs.cx = 800;
+	//cs.cy = 600;
+	//cs.x = 0;
+	//cs.y = 0;
 	return TRUE;
 }
 

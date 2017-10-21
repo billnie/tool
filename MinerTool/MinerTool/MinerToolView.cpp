@@ -292,6 +292,8 @@ END_MESSAGE_MAP()
 
 CMinerToolView::CMinerToolView()
 	: CFormView(IDD_MINERTOOL_FORM)
+	, m_nMin(0)
+	, m_nMax(0)
 {
 	// TODO: 在此处添加构造代码
 	m_cur_mode_sel = NULL;
@@ -305,6 +307,10 @@ void CMinerToolView::DoDataExchange(CDataExchange* pDX)
 {
 	CFormView::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_TAB1, m_tabCtrl);
+	DDX_Text(pDX, IDC_EDIT_IPED, m_nMin);
+	DDV_MinMaxInt(pDX, m_nMin, 1, 254);
+	DDX_Text(pDX, IDC_EDIT_IPST, m_nMax);
+	DDV_MinMaxInt(pDX, m_nMax, 1, 254);
 }
 
 BOOL CMinerToolView::PreCreateWindow(CREATESTRUCT& cs)
@@ -416,17 +422,10 @@ void CMinerToolView::OnBnClickedBtnOk()
 	GetDlgItemText(IDC_EDIT_IP, strIp);
 	GetDlgItemText(IDC_EDIT_IPST, strStart);
 	GetDlgItemText(IDC_EDIT_IPED, strStop);
-	host = "192.168.3.16";
-	resp = xdevs(host);
-	m_dlgPool.AddNote(resp,host);
-	boost::property_tree::ptree pt;
-	boost::property_tree::ini_parser::read_ini("bittool.ini", pt);  // 打开读文件  
-	pt.put<std::string>("ip", (LPCTSTR)strIp);
-	pt.put<std::string>("startip", (LPCTSTR)strStart);
-	pt.put<std::string>("endip", (LPCTSTR)strStop);
-	boost::property_tree::ini_parser::write_ini("bittool.ini", pt);
+	//host = "192.168.3.16";
+	//resp = xdevs(host);
 	
-	cregex reg_ip = cregex::compile("(25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])[.](25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[.](25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[.](25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])");
+	cregex reg_ip = cregex::compile("(25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])[.](25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[.](25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])");
 	/* 定义正则表达
 	式 */
 	if (regex_match((LPCTSTR)strIp, reg_ip)) {
@@ -437,6 +436,15 @@ void CMinerToolView::OnBnClickedBtnOk()
 			//合法的网段地址
 			if (st > 0 && st < 255 && ed >0 && ed < 255 && ed >= st) {
 				ret = 1;
+				m_dlgPool.AddNote(resp, host);
+				boost::property_tree::ptree pt;
+				boost::property_tree::ini_parser::read_ini("bittool.ini", pt);  // 打开读文件  
+				pt.put<std::string>("ip", (LPCTSTR)strIp);
+				pt.put<std::string>("startip", (LPCTSTR)strStart);
+				pt.put<std::string>("endip", (LPCTSTR)strStop);
+				boost::property_tree::ini_parser::write_ini("bittool.ini", pt);
+				m_dlgPool.newSearch((LPCTSTR)strIp, st, ed);
+				m_dlgVol.newSearch((LPCTSTR)strIp, st, ed);
 			}
 		}
 	}

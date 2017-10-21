@@ -34,6 +34,7 @@ void CDialogPool::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_LIST1, m_listCtrl);
+	DDX_Control(pDX, IDC_COMBO1, m_typePool);
 }
 
 
@@ -60,6 +61,11 @@ BOOL CDialogPool::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
+	m_typePool.AddString("BTC");
+	m_typePool.AddString("LTC");
+	m_typePool.AddString("DASH");
+	m_typePool.SetCurSel(0);
+
 	m_listCtrl.SetExtendedStyle(m_listCtrl.GetExtendedStyle()
 		| LVS_EX_SUBITEMIMAGES | LVS_EX_GRIDLINES | LVS_EX_FULLROWSELECT | LVS_EX_HEADERDRAGDROP);	//设置扩展风格
 
@@ -83,7 +89,7 @@ BOOL CDialogPool::OnInitDialog()
 	nWidth = rect.Width();
 	m_listCtrl.SetColumnWidth(0, 120);	//测试条件1 
 	m_listCtrl.SetColumnWidth(1, 78);	//测试条件1 
-	nWidth = 40;
+	nWidth = 60;
 	i = 2;
 	m_listCtrl.SetColumnWidth(i++, nWidth);	//测试条件1 
 	m_listCtrl.SetColumnWidth(i++, nWidth);	//测试条件1 
@@ -226,4 +232,19 @@ void CDialogPool::OnBnClickedBtnCheck()
 void CDialogPool::OnBnClickedBtnSet()
 {
 	saveParam();
+}
+
+
+int CDialogPool::newSearch(string host, int min, int max)
+{
+	m_listCtrl.DeleteAllItems();
+	string s;
+	int i,cnt ;
+	char buf[32];	cnt = 0;
+	for (i = min; i < max; i++) {
+		s = host;	sprintf(buf, ".%d", i);
+		s += buf;
+		cnt = m_listCtrl.InsertItem(cnt, s.c_str());
+	}
+	return 0;
 }

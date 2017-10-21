@@ -50,13 +50,14 @@ protected:
 protected:
 	DECLARE_MESSAGE_MAP()
 public:
-
 	afx_msg void OnBnClickedBtnOk();
 	afx_msg void OnBnClickedBtnImport();
 	afx_msg void OnBnClickedBtnDel();
 	CTabCtrl m_tabCtrl;
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult);
+	int m_nMin;
+	int m_nMax;
 };
 
 #ifndef _DEBUG  // MinerToolView.cpp 中的调试版本

@@ -2,6 +2,7 @@
 #include "afxcmn.h"
 #include	<string>
 #include	"dev_info.h"
+#include "afxwin.h"
 using namespace std;
 // CDialogPool ¶Ô»°¿ò
 
@@ -31,4 +32,6 @@ public:
 	int saveParam();
 	afx_msg void OnBnClickedBtnCheck();
 	afx_msg void OnBnClickedBtnSet();
+	int newSearch(string host,int min, int max);
+	CComboBox m_typePool;
 };
