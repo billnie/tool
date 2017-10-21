@@ -49,6 +49,7 @@ void CDialogPool::OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
 	// TODO: 在此添加控件通知处理程序代码
+
 	*pResult = 0;
 }
 
@@ -108,12 +109,12 @@ BOOL CDialogPool::OnInitDialog()
 		st = pt.get<int>("Pool.poo13");
 		CheckDlgButton(IDC_POOL3, st);
 
-		st = pt.get<int>("Pool.suffix1");
-		CheckDlgButton(IDC_POOL1, st);
-		st = pt.get<int>("Pool.suffix2");
-		CheckDlgButton(IDC_POOL2, st);
-		st = pt.get<int>("Pool.suffix3");
-		CheckDlgButton(IDC_POOL3, st);
+		//st = pt.get<int>("Pool.suffix1");
+		//CheckDlgButton(IDC_POOL1, st);
+		//st = pt.get<int>("Pool.suffix2");
+		//CheckDlgButton(IDC_POOL2, st);
+		//st = pt.get<int>("Pool.suffix3");
+		//CheckDlgButton(IDC_POOL3, st);
 	}
 	catch (std::exception e)
 	{
@@ -183,5 +184,17 @@ int CDialogPool::addListNote(dev_info &info, string host)
 	m_listCtrl.SetItemText(cnt, 3, info.status[0].Msg.c_str());
 //	m_listCtrl.SetItemText(cnt, 4, "未开始");
 
+	return 0;
+}
+
+
+int CDialogPool::saveParam()
+{
+	boost::property_tree::ptree pt;
+	boost::property_tree::ini_parser::read_ini("bittool.ini", pt);  // 打开读文件  
+	pt.put<int>("ip", CheckDlgButton(IDC_POOL1, BST_CHECKED));
+	pt.put<int>("ip", CheckDlgButton(IDC_POOL2, BST_CHECKED));
+	pt.put<int>("ip", CheckDlgButton(IDC_POOL3, BST_CHECKED));
+	boost::property_tree::ini_parser::write_ini("bittool.ini", pt);
 	return 0;
 }

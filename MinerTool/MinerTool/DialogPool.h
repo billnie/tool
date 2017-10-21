@@ -28,4 +28,5 @@ public:
 	virtual BOOL OnInitDialog();
 	int AddNote(string resp, string host);
 	int addListNote(dev_info &info, string host);
+	int saveParam();
 };
