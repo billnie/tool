@@ -19,6 +19,7 @@ public:
 	~dev_pool() {
 
 	}
+	string urlcodestring();
 	string pool2string();
 };
 
@@ -32,5 +33,6 @@ public:
 	~dev_pools() {
 
 	}
+	string urlcodestring();
 	string jsonpools();
 };

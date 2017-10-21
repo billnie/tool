@@ -197,7 +197,7 @@ string xpoolset(string host, string data)
 {
 	//	string host = "192.168.3.16";
 	string port = "80";
-	string page = "/saveminer";
+	string page = "/saveminner";
 //	string data = "";
 	string reponse_data;
 
@@ -370,26 +370,26 @@ void CMinerToolView::OnBnClickedBtnDel()
 	dev_pools dps;
 	dev_pool dp;
 	string s;
-	dp.url = "stratum_ltc.bw.com:8888";
+	dp.url = "stratum_ltc.bw1.com:8888";
 	dp.username = "jjyykk.L22";
 	dp.password = "123123";
 	dp.bPrefix = true;
 	dps.pools.push_back(dp);
 
-	dp.url = "stratum_ltc.bw.com:8888";
+	dp.url = "stratum_ltc.bw1.com:8888";
 	dp.username = "jjyykk.L23";
 	dp.password = "123123";
 	dp.bPrefix = true;
 	dps.pools.push_back(dp);
 
-	dp.url = "stratum_ltc.bw.com:8888";
+	dp.url = "stratum_ltc.bw1.com:8888";
 	dp.username = "jjyykk.L24";
 	dp.password = "123123";
 	dp.bPrefix = true;
 	dps.pools.push_back(dp);
 
 	dps.Frequency = 648;
-	s = dps.jsonpools();
+	s = dps.urlcodestring();
 
 	DT(s.c_str());
 	xpoolset("192.168.3.16", s.c_str());
