@@ -1,7 +1,7 @@
 #pragma once
 #include "afxcmn.h"
-
-
+#include	<string>
+using namespace std;
 // CDialogPool ¶Ô»°¿ò
 
 class CDialogPool : public CDialogEx
@@ -25,4 +25,5 @@ public:
 	afx_msg void OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult);
 	CListCtrl m_listCtrl;
 	virtual BOOL OnInitDialog();
+	int AddNote(string resp);
 };

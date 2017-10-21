@@ -6,7 +6,13 @@
 #include "DialogPool.h"
 #include "afxdialogex.h"
 
-
+#include <boost/progress.hpp>  
+#include "sstream"  
+#include <boost/property_tree/ptree.hpp>  
+#include <boost/property_tree/json_parser.hpp>  
+#include <boost/property_tree/xml_parser.hpp>  
+#include <boost/typeof/typeof.hpp>  
+#include <boost/foreach.hpp>  
 // CDialogPool 对话框
 
 IMPLEMENT_DYNAMIC(CDialogPool, CDialogEx)
@@ -84,4 +90,11 @@ BOOL CDialogPool::OnInitDialog()
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 异常: OCX 属性页应返回 FALSE
+}
+
+
+int CDialogPool::AddNote(string resp)
+{
+
+	return 0;
 }

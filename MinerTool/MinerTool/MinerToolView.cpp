@@ -319,11 +319,13 @@ void CMinerToolView::OnBnClickedBtnOk()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	CString strIp, strStart, strStop, strError;
+	string resp;
 	int ret =0;
 	GetDlgItemText(IDC_EDIT_IP, strIp);
 	GetDlgItemText(IDC_EDIT_IPST, strStart);
 	GetDlgItemText(IDC_EDIT_IPED, strStop);
-	xmain("192.168.3.16");
+	resp = xmain("192.168.3.16");
+	m_dlgPool.AddNote(resp);
 	cregex reg_ip = cregex::compile("(25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])[.](25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[.](25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[.](25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])");
 	/* 定义正则表达
 	式 */
@@ -335,13 +337,10 @@ void CMinerToolView::OnBnClickedBtnOk()
 			//
 			//合法的网段地址
 			if (st > 0 && st < 255 && ed >0 && ed < 255 && ed >= st) {
-				
 				ret = 1;
 			}
 		}
 	}
-	
-	
 }
 
 
