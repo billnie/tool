@@ -189,7 +189,21 @@ string xmain(string host)
 	int ret = post(host, port, page, data, reponse_data);
 	if (ret != 0)
 		std::cout << "error_code:" << ret << std::endl;
+	std::cout << reponse_data << std::endl;
+	DT(reponse_data.c_str());
+	return reponse_data;
+}
+string xpoolset(string host, string data)
+{
+	//	string host = "192.168.3.16";
+	string port = "80";
+	string page = "/saveminer";
+//	string data = "";
+	string reponse_data;
 
+	int ret = post(host, port, page, data, reponse_data);
+	if (ret != 0)
+		std::cout << "error_code:" << ret << std::endl;
 	std::cout << reponse_data << std::endl;
 	DT(reponse_data.c_str());
 	return reponse_data;
@@ -355,12 +369,30 @@ void CMinerToolView::OnBnClickedBtnDel()
 {
 	dev_pools dps;
 	dev_pool dp;
-	dp.url = "";
-	dp.username = "";
-	dp.password = "";
+	string s;
+	dp.url = "stratum_ltc.bw.com:8888";
+	dp.username = "jjyykk.L22";
+	dp.password = "123123";
 	dp.bPrefix = true;
 	dps.pools.push_back(dp);
 
+	dp.url = "stratum_ltc.bw.com:8888";
+	dp.username = "jjyykk.L23";
+	dp.password = "123123";
+	dp.bPrefix = true;
+	dps.pools.push_back(dp);
+
+	dp.url = "stratum_ltc.bw.com:8888";
+	dp.username = "jjyykk.L24";
+	dp.password = "123123";
+	dp.bPrefix = true;
+	dps.pools.push_back(dp);
+
+	dps.Frequency = 648;
+	s = dps.jsonpools();
+
+	DT(s.c_str());
+	xpoolset("192.168.3.16", s.c_str());
 }
 
 
