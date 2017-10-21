@@ -19,6 +19,8 @@ public:
 #endif
 	CDialogPool m_dlgPool;
 	CDialogVol	m_dlgVol;
+	CDialog *m_pPage[3];
+	int m_cur_mode_sel;
 // 特性
 public:
 	CMinerToolDoc* GetDocument() const;
@@ -52,6 +54,8 @@ public:
 	afx_msg void OnBnClickedBtnImport();
 	afx_msg void OnBnClickedBtnDel();
 	CTabCtrl m_tabCtrl;
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult);
 };
 
 #ifndef _DEBUG  // MinerToolView.cpp 中的调试版本

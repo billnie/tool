@@ -26,6 +26,8 @@ BEGIN_MESSAGE_MAP(CMinerToolView, CFormView)
 	ON_BN_CLICKED(IDC_BTN_OK, &CMinerToolView::OnBnClickedBtnOk)
 	ON_BN_CLICKED(IDC_BTN_IMPORT, &CMinerToolView::OnBnClickedBtnImport)
 	ON_BN_CLICKED(IDC_BTN_DEL, &CMinerToolView::OnBnClickedBtnDel)
+	ON_WM_SIZE()
+	ON_NOTIFY(TCN_SELCHANGE, IDC_TAB1, &CMinerToolView::OnSelchangeTab1)
 END_MESSAGE_MAP()
 
 // CMinerToolView 构造/析构
@@ -34,7 +36,7 @@ CMinerToolView::CMinerToolView()
 	: CFormView(IDD_MINERTOOL_FORM)
 {
 	// TODO: 在此处添加构造代码
-
+	m_cur_mode_sel = NULL;
 }
 
 CMinerToolView::~CMinerToolView()
@@ -81,6 +83,10 @@ void CMinerToolView::OnInitialUpdate()
 	int i = 0;
 	m_tabCtrl.InsertItem(i++, TEXT(" 频率 & 电压 "));
 	m_tabCtrl.InsertItem(i++, TEXT(" 矿池相关 "));
+	i = 0;
+	m_pPage[i++] = &m_dlgVol;
+	m_pPage[i++] = &m_dlgPool;
+
 }
 
 
@@ -123,4 +129,41 @@ void CMinerToolView::OnBnClickedBtnImport()
 void CMinerToolView::OnBnClickedBtnDel()
 {
 	// TODO: 在此添加控件通知处理程序代码
+}
+
+
+void CMinerToolView::OnSize(UINT nType, int cx, int cy)
+{
+	CFormView::OnSize(nType, cx, cy);
+	CSize sizeTotal;
+	sizeTotal.cx = cx;
+	sizeTotal.cy = cy;
+
+	if (m_tabCtrl.GetSafeHwnd() != NULL && m_dlgVol.GetSafeHwnd()!=NULL) {
+		CRect rect;
+		GetClientRect(rect);
+		m_tabCtrl.MoveWindow(rect);
+		m_tabCtrl.GetWindowRect(rect);
+		ScreenToClient(rect);
+		rect.right = cx - rect.left;
+		rect.bottom = cy - rect.left;
+		m_tabCtrl.MoveWindow(rect);
+		rect.top = 20;
+
+		m_dlgPool.MoveWindow(rect);
+		m_dlgVol.MoveWindow(rect);
+	}
+}
+
+
+void CMinerToolView::OnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	int cur_sel = m_tabCtrl.GetCurSel();
+
+	if (m_cur_mode_sel != cur_sel) {
+		m_pPage[m_cur_mode_sel]->ShowWindow(SW_HIDE);
+		m_pPage[cur_sel]->ShowWindow(SW_SHOW);
+		m_cur_mode_sel = cur_sel;
+	}
+	*pResult = 0;
 }
