@@ -1,4 +1,5 @@
 #pragma once
+#include "afxcmn.h"
 
 
 // CDialogVol 对话框
@@ -20,4 +21,7 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnLvnItemchangedList1(NMHDR *pNMHDR, LRESULT *pResult);
+	CListCtrl m_listCtrl;
 };
