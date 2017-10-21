@@ -62,12 +62,12 @@ BOOL CDialogPool::OnInitDialog()
 	m_listCtrl.ModifyStyle(0, LVS_SINGLESEL);
 	//设置列表头
 	int i = 2;
-	m_listCtrl.InsertColumn(0, _T("x,y,sub"), LVCFMT_CENTER);
-	m_listCtrl.InsertColumn(1, _T("state"), LVCFMT_CENTER);
-	m_listCtrl.InsertColumn(i++, _T("u1"), LVCFMT_CENTER);
-	m_listCtrl.InsertColumn(i++, _T("u2"), LVCFMT_CENTER);
-	m_listCtrl.InsertColumn(i++, _T("u3"), LVCFMT_CENTER);
-	m_listCtrl.InsertColumn(i++, _T("u4"), LVCFMT_CENTER);
+	m_listCtrl.InsertColumn(0, _T("IP"), LVCFMT_CENTER);
+	m_listCtrl.InsertColumn(1, _T("STATUS"), LVCFMT_CENTER);
+	m_listCtrl.InsertColumn(i++, _T("Type"), LVCFMT_CENTER);
+	m_listCtrl.InsertColumn(i++, _T("Version"), LVCFMT_CENTER);
+	m_listCtrl.InsertColumn(i++, _T("freq"), LVCFMT_CENTER);
+	m_listCtrl.InsertColumn(i++, _T("Elapse"), LVCFMT_CENTER);
 	m_listCtrl.InsertColumn(i++, _T("u5"), LVCFMT_CENTER);
 	m_listCtrl.InsertColumn(i++, _T("u6"), LVCFMT_CENTER);
 	m_listCtrl.InsertColumn(i++, _T("u7"), LVCFMT_CENTER);

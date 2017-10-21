@@ -223,7 +223,6 @@ string xnet(string host)
 	string port = "80";
 	string page = "/net";
 	string reponse_data;
-
 	int ret = post(host, port, page, "", reponse_data);
 	if (ret != 0)
 		std::cout << "error_code:" << ret << std::endl;
