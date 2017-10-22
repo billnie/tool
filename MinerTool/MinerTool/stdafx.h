@@ -62,4 +62,5 @@
 #endif
 #endif
 
+#define MESSAGE_DEVS 30
 

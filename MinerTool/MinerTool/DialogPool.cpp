@@ -26,7 +26,6 @@ IMPLEMENT_DYNAMIC(CDialogPool, CDialogEx)
 CDialogPool::CDialogPool(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_DLG_POOL, pParent)
 {
-
 }
 
 CDialogPool::~CDialogPool()
@@ -46,6 +45,8 @@ BEGIN_MESSAGE_MAP(CDialogPool, CDialogEx)
 	ON_BN_CLICKED(IDC_BTN_CHECK, &CDialogPool::OnBnClickedBtnCheck)
 	ON_BN_CLICKED(IDC_BTN_SET, &CDialogPool::OnBnClickedBtnSet)
 	ON_BN_CLICKED(IDC_BTN_EXPORT, &CDialogPool::OnBnClickedBtnExport)
+
+	ON_MESSAGE(MESSAGE_DEVS, &CDialogPool::OnCommonNotify)
 END_MESSAGE_MAP()
 
 
@@ -144,6 +145,8 @@ BOOL CDialogPool::OnInitDialog()
 		cout << e.what();
 		boost::property_tree::ini_parser::write_ini("bittool.ini", pt);
 	}
+	//::PostMessage(this->GetSafeHwnd(), MESSAGE_DEVS, WPARAM(0), LPARAM(0));
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 异常: OCX 属性页应返回 FALSE
 }
@@ -167,6 +170,7 @@ int CDialogPool::AddNote(string resp, string host)
 			dev_item it;
 			it.parseFromPTree(p);
 			info.items.push_back(it);
+			//m_devMap[it.]
 		}
 		boost::property_tree::ptree array = parser.get_child(dev_info::STATUS);
 		BOOST_FOREACH(boost::property_tree::ptree::value_type &v, array)
@@ -193,11 +197,26 @@ int CDialogPool::addListNote(dev_info &info, string host)
 	int x, y;
 	CString str1, str2, str3, str;
 	string ss;
+
+	::PostMessage(this->GetSafeHwnd(), MESSAGE_DEVS, WPARAM(0), LPARAM(0));
+	
+	/*
+	m_listCtrl.DeleteAllItems();
+	std::map<std::string, dev_item>::iterator it;
+	for (it = m_devMap.begin(); it != m_devMap.end(); it++) {
+		cnt = m_listCtrl.GetItemCount();
+		cnt = m_listCtrl.InsertItem(cnt, host.c_str());
+		m_listCtrl.SetItemText(cnt, 1, it->second.Status.c_str());
+	}
+	*/
+	/*
 	cnt = m_listCtrl.GetItemCount();
 	cnt = m_listCtrl.InsertItem(cnt, host.c_str());
 	m_listCtrl.SetItemText(cnt, 1, info.status[0].Description.c_str());
 	m_listCtrl.SetItemText(cnt, 2, info.status[0].STATUS.c_str());
 	m_listCtrl.SetItemText(cnt, 3, info.status[0].Msg.c_str());
+	*/
+	
 //	m_listCtrl.SetItemText(cnt, 4, "未开始");
 
 	return 0;
@@ -329,4 +348,44 @@ void CDialogPool::OnBnClickedBtnExport()
 		file.close();
 	}
 
+}
+
+int CDialogPool::updateDevs(string host, string data) {
+	if (data.length() > 0) {
+		dev_info info;
+		std::istringstream iss;
+		iss.str(data.c_str());
+		boost::property_tree::ptree parser;
+		boost::property_tree::json_parser::read_json(iss, parser);
+		boost::property_tree::ptree sms_array = parser.get_child(dev_info::DEVS);
+		BOOST_FOREACH(boost::property_tree::ptree::value_type &v, sms_array)
+		{
+			boost::property_tree::ptree p = v.second;
+			dev_item it;
+			it.parseFromPTree(p);
+			info.items.push_back(it);
+			m_devMap[host] = it;
+		}
+		boost::property_tree::ptree array = parser.get_child(dev_info::STATUS);
+		BOOST_FOREACH(boost::property_tree::ptree::value_type &v, array)
+		{
+			boost::property_tree::ptree p = v.second;
+			dev_status it;
+			it.parseFromPTree(p);
+			info.status.push_back(it);
+		}
+		addListNote(info, host);
+	}
+	return 0;
+}
+
+LRESULT CDialogPool::OnCommonNotify(WPARAM wParam, LPARAM lParam) {
+	m_listCtrl.DeleteAllItems();
+	std::map<std::string, dev_item>::iterator it;
+	for (it = m_devMap.begin(); it != m_devMap.end(); it++) {
+		int cnt = m_listCtrl.GetItemCount();
+		cnt = m_listCtrl.InsertItem(cnt, it->first .c_str());
+		m_listCtrl.SetItemText(cnt, 1, it->second.Status.c_str());
+	}
+	return 1;
 }
