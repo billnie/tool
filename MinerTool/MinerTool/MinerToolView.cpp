@@ -33,7 +33,6 @@
 using namespace str;
 using namespace boost::xpressive;
 using namespace std;
-
 using std::string;
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -49,35 +48,7 @@ void InitConsoleWindow(void)
 	*stdout = *hf;
 	setvbuf(stdout, NULL, _IONBF, 0);
 }
-int read_file(vector<string> &data, string szFile)
-{
-	data.clear();
-	//
-	std::ifstream file_(szFile.c_str(), std::ios::in);
-	//std::wifstream file_;
-	//file_.open(szFile.c_str(), std::ios::in);
-	if (!file_) return -1;
-	const int bufsize = 512;
-	char strbuf[bufsize];
-	//
-	while (!file_.eof())
-	{
-		file_.getline(strbuf, bufsize);
-		string sentence = strbuf;
-		if (sentence.empty())
-		{
-			continue;
-		}
-		data.push_back(sentence);
-	}
-	file_.close();
-	//
-	if (data.size() < 1)
-	{
-		return -1;
-	}
-	return 0;
-}
+
 
 // CMinerToolView
 
