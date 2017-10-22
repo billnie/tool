@@ -361,7 +361,9 @@ int CMinerToolView::updateRequst(int type, string host, string data, void*obj)
 	mv = (CMinerToolView*)obj;
 
 	switch (type) {
-	case bitminner::cmdDevs:
+	case bitminner::cmdDevs:{
+		mv->m_dlgPool.updateDevs(host, data);
+	}
 		break;
 	case bitminner::cmdgetMinner:
 		break;

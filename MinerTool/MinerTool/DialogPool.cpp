@@ -26,7 +26,6 @@ IMPLEMENT_DYNAMIC(CDialogPool, CDialogEx)
 CDialogPool::CDialogPool(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_DLG_POOL, pParent)
 {
-
 }
 
 CDialogPool::~CDialogPool()
@@ -167,6 +166,7 @@ int CDialogPool::AddNote(string resp, string host)
 			dev_item it;
 			it.parseFromPTree(p);
 			info.items.push_back(it);
+			//m_devMap[it.]
 		}
 		boost::property_tree::ptree array = parser.get_child(dev_info::STATUS);
 		BOOST_FOREACH(boost::property_tree::ptree::value_type &v, array)
@@ -329,4 +329,33 @@ void CDialogPool::OnBnClickedBtnExport()
 		file.close();
 	}
 
+}
+
+int CDialogPool::updateDevs(string host, string data) {
+	if (data.length() > 0) {
+		dev_info info;
+		std::istringstream iss;
+		iss.str(data.c_str());
+		boost::property_tree::ptree parser;
+		boost::property_tree::json_parser::read_json(iss, parser);
+		boost::property_tree::ptree sms_array = parser.get_child(dev_info::DEVS);
+		BOOST_FOREACH(boost::property_tree::ptree::value_type &v, sms_array)
+		{
+			boost::property_tree::ptree p = v.second;
+			dev_item it;
+			it.parseFromPTree(p);
+			info.items.push_back(it);
+			m_devMap[host] = it;
+		}
+		boost::property_tree::ptree array = parser.get_child(dev_info::STATUS);
+		BOOST_FOREACH(boost::property_tree::ptree::value_type &v, array)
+		{
+			boost::property_tree::ptree p = v.second;
+			dev_status it;
+			it.parseFromPTree(p);
+			info.status.push_back(it);
+		}
+		addListNote(info, host);
+	}
+	return 0;
 }
