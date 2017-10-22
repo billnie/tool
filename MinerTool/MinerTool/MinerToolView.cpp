@@ -25,6 +25,7 @@
 
 #include <boost/property_tree/ptree.hpp>    
 #include <boost/property_tree/ini_parser.hpp>  
+#include <boost/property_tree/json_parser.hpp>  
 
 #include "dev_pool.h"
 #include	"stlstr.h"
@@ -378,5 +379,26 @@ int CMinerToolView::updateRequst(int type, string host, string data, void*obj)
 	CMinerToolView *mv;
 	mv = (CMinerToolView*)obj;
 
+	dev_info info;
+	std::istringstream iss;
+	iss.str(data.c_str());
+	boost::property_tree::ptree parser;
+	boost::property_tree::ptree sms_array = parser.get_child(dev_info::DEVS);
+	BOOST_FOREACH(boost::property_tree::ptree::value_type &v, sms_array)
+	{
+		boost::property_tree::ptree p = v.second;
+		dev_item it;
+		it.parseFromPTree(p);
+		info.items.push_back(it);
+	}
+	boost::property_tree::ptree array = parser.get_child(dev_info::STATUS);
+	BOOST_FOREACH(boost::property_tree::ptree::value_type &v, array)
+	{
+		boost::property_tree::ptree p = v.second;
+		dev_status it;
+		it.parseFromPTree(p);
+		info.status.push_back(it);
+	}
+	//addListNote(info, host);
 	return 0;
 }
