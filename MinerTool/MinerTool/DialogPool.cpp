@@ -77,11 +77,14 @@ BOOL CDialogPool::OnInitDialog()
 	m_listCtrl.InsertColumn(i++, _T("Type"), LVCFMT_CENTER);
 	m_listCtrl.InsertColumn(i++, _T("Version"), LVCFMT_CENTER);
 	m_listCtrl.InsertColumn(i++, _T("freq"), LVCFMT_CENTER);
-	m_listCtrl.InsertColumn(i++, _T("Elapse"), LVCFMT_CENTER);
-	m_listCtrl.InsertColumn(i++, _T("u5"), LVCFMT_CENTER);
-	m_listCtrl.InsertColumn(i++, _T("u6"), LVCFMT_CENTER);
-	m_listCtrl.InsertColumn(i++, _T("u7"), LVCFMT_CENTER);
-	m_listCtrl.InsertColumn(i++, _T("u8"), LVCFMT_CENTER);
+	m_listCtrl.InsertColumn(i++, _T("Elapsed"), LVCFMT_CENTER);
+	m_listCtrl.InsertColumn(i++, _T("Hash Rate(5s)"), LVCFMT_CENTER);
+	m_listCtrl.InsertColumn(i++, _T("Hash Rate(avg)"), LVCFMT_CENTER);
+	m_listCtrl.InsertColumn(i++, _T("HW"), LVCFMT_CENTER);
+	m_listCtrl.InsertColumn(i++, _T("HWP"), LVCFMT_CENTER);
+	m_listCtrl.InsertColumn(i++, _T("Temp"), LVCFMT_CENTER);
+	m_listCtrl.InsertColumn(i++, _T("Fan"), LVCFMT_CENTER);
+
 	//设置各列的宽度
 	CRect rect;
 	int nWidth;
@@ -95,8 +98,8 @@ BOOL CDialogPool::OnInitDialog()
 	m_listCtrl.SetColumnWidth(i++, nWidth);	//测试条件1 
 	m_listCtrl.SetColumnWidth(i++, nWidth);	//测试条件1 
 	m_listCtrl.SetColumnWidth(i++, nWidth);	//测试条件1 
-	m_listCtrl.SetColumnWidth(i++, nWidth);	//测试条件1 
-	m_listCtrl.SetColumnWidth(i++, nWidth);	//测试条件1 
+	m_listCtrl.SetColumnWidth(i++, 100);	//测试条件1 
+	m_listCtrl.SetColumnWidth(i++, 100);	//测试条件1 
 	m_listCtrl.SetColumnWidth(i++, nWidth);	//测试条件1 
 	m_listCtrl.SetColumnWidth(i++, nWidth);	//测试条件1 
 
