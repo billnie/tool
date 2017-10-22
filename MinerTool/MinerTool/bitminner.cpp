@@ -175,6 +175,7 @@ namespace bitminner {
 			len = data.length();
 			if (ret ==0 && data.length() < size) {
 				memcpy(buffer, data.c_str(), data.length());
+				buffer[len] = '\0';
 				return data.length();
 			}
 		}
@@ -184,6 +185,15 @@ namespace bitminner {
 		int ret;
 		data = xgetminner(host,ret);
 		if (ret == 0&&  data.length() < size) {
+			memcpy(buffer, data.c_str(), data.length());
+			return data.length();
+		}
+		return 0;
+	}
+	int MinnerSetReqst::read(char*buffer, int size) {
+		int ret;
+		data = xpoolset(host,data, ret);
+		if (ret == 0 && data.length() < size) {
 			memcpy(buffer, data.c_str(), data.length());
 			return data.length();
 		}
@@ -199,6 +209,30 @@ namespace bitminner {
 		data = buffer.get();
 		f(1,host,data,obj);
 		reader.start_read(buffer.get()+len, alloclen-len);
+		len++;
+	}
+	void AnsyncMinerRequst::initgetminnser(string host, boost::function<void(int, string, string, void*)> f) {
+		alloclen = 2048;
+		buffer = std::unique_ptr<char[]>(new char[alloclen]);
+		reader.init(std::unique_ptr<ByteSourceBase>(new MinnerReqst(host)));
+		reader.start_read(buffer.get(), alloclen);
+		len = reader.finish_read();
+		string data;
+		data = buffer.get();
+		f(1, host, data, obj);
+		reader.start_read(buffer.get() + len, alloclen - len);
+		len++;
+	}
+	void AnsyncMinerRequst::initsaveminner(string host, string data,boost::function<void(int, string, string, void*)> f) {
+		alloclen = 2048;
+		buffer = std::unique_ptr<char[]>(new char[alloclen]);
+		reader.init(std::unique_ptr<ByteSourceBase>(new MinnerSetReqst(host,data)));
+		reader.start_read(buffer.get(), alloclen);
+		len = reader.finish_read();
+		string data;
+		data = buffer.get();
+		f(1, host, data, obj);
+		reader.start_read(buffer.get() + len, alloclen - len);
 		len++;
 	}
 	void AnsyncMinerRequst::initdevslist(string host,int start, int end, boost::function<void(int, string, string, void*)> f) {

@@ -47,6 +47,13 @@ namespace bitminner {
 		~MinnerReqst() {}
 	private:string host;
 	};
+	class MinnerSetReqst : public ByteSourceBase {
+	public:
+		explicit MinnerSetReqst(string host,string data) :host(host):data(data) {}
+		int read(char*buffer, int size);
+		~MinnerSetReqst() {}
+	private:string host,data;
+	};
 	class AsynchronousReader {
 	public:
 		void init(std::unique_ptr<ByteSourceBase>arg_byte_source) {
@@ -142,6 +149,8 @@ namespace bitminner {
 		AsynchronousReader reader;
 		std::unique_ptr<char[]>buffer;
 		void initdevs(string host,boost::function<void(int, string, string, void*)> f);
+		void initgetminnser(string host, boost::function<void(int, string, string, void*)> f);
+		void initsaveminner(string host, string data,boost::function<void(int, string, string, void*)> f);
 		void initdevslist(string host,int start,int end, boost::function<void(int, string, string, void*)> f);
 	};
 }
