@@ -42,6 +42,8 @@
 #define IDC_RADIO_PL3NONE               1022
 #define IDC_BTN_SET                     1023
 #define IDC_BTN_CHECK                   1024
+#define IDC_BTN_CHECK2                  1025
+#define IDC_BTN_EXPORT                  1025
 
 // Next default values for new objects
 // 
