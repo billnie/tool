@@ -97,3 +97,16 @@ int CDialogVol::newSearch(string host, int min, int max)
 	}
 	return 0;
 }
+int CDialogVol::newSearch(vector<string>&vs) {
+	m_listCtrl.DeleteAllItems();
+	string s;
+	int i, cnt;
+	char buf[32];	cnt = 0;
+	vector<string>::iterator it;
+	for (it = vs.begin(); it != vs.end();) {
+		//≈–∂œ «∑Ò «ip
+		cnt = m_listCtrl.InsertItem(cnt, (*it).c_str());
+		it++;
+	}
+	return 0;
+}

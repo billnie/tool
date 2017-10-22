@@ -2,6 +2,7 @@
 #include "afxcmn.h"
 #include "afxwin.h"
 #include	<string>
+#include	<vector>
 using namespace std;
 
 // CDialogVol ¶Ô»°¿ò
@@ -29,4 +30,5 @@ public:
 	virtual BOOL OnInitDialog();
 	CComboBox m_typeMiner;
 	int newSearch(string host, int min, int max);
+	int newSearch(vector<string>&vs);
 };

@@ -61,6 +61,35 @@ void InitConsoleWindow(void)
 	*stdout = *hf;
 	setvbuf(stdout, NULL, _IONBF, 0);
 }
+int read_file(vector<string> &data, string szFile)
+{
+	data.clear();
+	//
+	std::ifstream file_(szFile.c_str(), std::ios::in);
+	//std::wifstream file_;
+	//file_.open(szFile.c_str(), std::ios::in);
+	if (!file_) return -1;
+	const int bufsize = 512;
+	char strbuf[bufsize];
+	//
+	while (!file_.eof())
+	{
+		file_.getline(strbuf, bufsize);
+		string sentence = strbuf;
+		if (sentence.empty())
+		{
+			continue;
+		}
+		data.push_back(sentence);
+	}
+	file_.close();
+	//
+	if (data.size() < 1)
+	{
+		return -1;
+	}
+	return 0;
+}
 void DT(const char * strOutputString, ...)
 {
 #ifdef NDEBUG
@@ -453,7 +482,20 @@ void CMinerToolView::OnBnClickedBtnOk()
 
 void CMinerToolView::OnBnClickedBtnImport()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	CFileDialog   dlg(TRUE, NULL, NULL, OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT,
+		_T("txt   Files   (*.txt)|*.txt|All   Files   (*.*)|*.*||"));
+
+	if (dlg.DoModal() == IDOK)
+	{
+		CString str;
+		vector<string> vs;
+		str = dlg.GetPathName();
+		read_file(vs, (LPCTSTR)str);
+		if (vs.size() > 0) {
+			m_dlgPool.newSearch(vs);
+			m_dlgVol.newSearch(vs);
+		}
+	}
 }
 
 
