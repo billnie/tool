@@ -94,8 +94,9 @@ void CMinerToolView::OnInitialUpdate()
 	CFormView::OnInitialUpdate();
 	GetParentFrame()->RecalcLayout();
 	ResizeParentToFit();
+#ifdef _DEBUG
 	InitConsoleWindow();
-	
+#endif
 	str::initlog("log");
 
 //	BOOST_LOG_TRIVIAL(trace) << "A trace severity message";
