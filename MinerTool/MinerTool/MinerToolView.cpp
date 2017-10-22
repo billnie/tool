@@ -35,6 +35,8 @@
 #include <boost/log/utility/setup/common_attributes.hpp>
 #include <boost/log/common.hpp>
 #include "dev_pool.h"
+#include	"stlstr.h"
+using namespace str;
 namespace logging = boost::log;
 namespace sinks = boost::log::sinks;
 namespace attrs = boost::log::attributes;
@@ -116,34 +118,7 @@ void DT(const char * strOutputString, ...)
 	OutputDebugStringA(strBuffer);
 	OutputDebugStringA("\r\n");
 }
-int initlog() {
-	// 设置此对话框的图标。当应用程序主窗口不是对话框时，框架将自动
-	//  执行此操作
-	char tempbuf[128];
-	char strtm[32] = { 0 };
 
-	time_t rawtime;
-	struct tm * timeinfo;
-	time(&rawtime);
-
-	timeinfo = localtime(&rawtime);
-
-	strftime(tempbuf, 128, ".\\log\\%Y%m%d_%H%M%S_1.log", timeinfo);
-	boost::log::add_file_log(
-		keywords::auto_flush = true,
-		keywords::file_name = tempbuf,// "log_%N.log",// AppHolder::Instance().config().log_folder + "/sign_%Y-%m-%d_%H-%M-%S.%N.log",
-		keywords::rotation_size = 10 * 1024 * 1024,
-		keywords::time_based_rotation = sinks::file::rotation_at_time_point(0, 0, 0),
-		keywords::min_free_space = 3 * 1024 * 1024,
-		keywords::format = "[%TimeStamp%]: %Message%"
-		);
-	//	logging::add_file_log("log.log");
-	//	logging::core::get()->set_logging_enabled(true);
-	boost::log::add_common_attributes();
-	//SetFilter1();
-	BOOST_LOG_TRIVIAL(trace) << "---欢迎使用bittool!---";
-	return 0;
-}
 int post(const string& host, const string& port, const string& page, const string& data, string& reponse_data)
 {
 	try
@@ -359,7 +334,7 @@ void CMinerToolView::OnInitialUpdate()
 	ResizeParentToFit();
 	InitConsoleWindow();
 	
-	initlog();
+	str::initlog("log");
 
 	BOOST_LOG_TRIVIAL(trace) << "A trace severity message";
 

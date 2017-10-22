@@ -17,7 +17,8 @@
 #include <boost/property_tree/ptree.hpp>    
 #include <boost/property_tree/ini_parser.hpp>  
 // CDialogPool 对话框
-
+#include	"stlstr.h"
+using namespace str;
 IMPLEMENT_DYNAMIC(CDialogPool, CDialogEx)
 
 CDialogPool::CDialogPool(CWnd* pParent /*=NULL*/)
@@ -256,7 +257,9 @@ int CDialogPool::newSearch(vector<string>&vs) {
 	vector<string>::iterator it;
 	for (it = vs.begin(); it != vs.end();) {
 		//判断是否是ip
-		cnt = m_listCtrl.InsertItem(cnt, (*it).c_str());
+		if (isregxip(*it)) {
+			cnt = m_listCtrl.InsertItem(cnt, (*it).c_str());
+		}
 		it++;
 	}
 	return 0;

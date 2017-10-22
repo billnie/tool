@@ -6,7 +6,8 @@
 #include "DialogVol.h"
 #include "afxdialogex.h"
 
-
+#include	"stlstr.h"
+using namespace str;
 // CDialogVol 对话框
 
 IMPLEMENT_DYNAMIC(CDialogVol, CDialogEx)
@@ -105,7 +106,9 @@ int CDialogVol::newSearch(vector<string>&vs) {
 	vector<string>::iterator it;
 	for (it = vs.begin(); it != vs.end();) {
 		//判断是否是ip
-		cnt = m_listCtrl.InsertItem(cnt, (*it).c_str());
+		if (isregxip(*it)) {
+			cnt = m_listCtrl.InsertItem(cnt, (*it).c_str());
+		}
 		it++;
 	}
 	return 0;
