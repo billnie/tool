@@ -49,7 +49,7 @@ namespace bitminner {
 	};
 	class MinnerSetReqst : public ByteSourceBase {
 	public:
-		explicit MinnerSetReqst(string host,string data) :host(host):data(data) {}
+		explicit MinnerSetReqst(string host,string data) :host(host),data(data) {}
 		int read(char*buffer, int size);
 		~MinnerSetReqst() {}
 	private:string host,data;

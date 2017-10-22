@@ -229,9 +229,9 @@ namespace bitminner {
 		reader.init(std::unique_ptr<ByteSourceBase>(new MinnerSetReqst(host,data)));
 		reader.start_read(buffer.get(), alloclen);
 		len = reader.finish_read();
-		string data;
-		data = buffer.get();
-		f(1, host, data, obj);
+		string da;
+		da = buffer.get();
+		f(1, host, da, obj);
 		reader.start_read(buffer.get() + len, alloclen - len);
 		len++;
 	}
