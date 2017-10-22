@@ -195,6 +195,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bitminner.h" />
     <ClInclude Include="csv.h" />
     <ClInclude Include="csv\csv.hpp" />
     <ClInclude Include="csv\document.hpp" />
@@ -216,6 +217,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="bitminner.cpp" />
     <ClCompile Include="dev_info.cpp" />
     <ClCompile Include="dev_pool.cpp" />
     <ClCompile Include="DialogFirmware.cpp" />

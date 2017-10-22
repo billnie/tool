@@ -16,6 +16,9 @@
     <Filter Include="csv">
       <UniqueIdentifier>{4fc45fbe-e028-43db-8fa8-1ba495f480e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="bitrequest">
+      <UniqueIdentifier>{ff23ebd2-4e44-46aa-a63f-ef7070b8b9bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -78,6 +81,9 @@
     <ClInclude Include="csv\writer.hpp">
       <Filter>csv</Filter>
     </ClInclude>
+    <ClInclude Include="bitminner.h">
+      <Filter>bitrequest</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MinerTool.cpp">
@@ -118,6 +124,9 @@
     </ClCompile>
     <ClCompile Include="writer.cpp">
       <Filter>csv</Filter>
+    </ClCompile>
+    <ClCompile Include="bitminner.cpp">
+      <Filter>bitrequest</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

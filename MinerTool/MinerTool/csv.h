@@ -814,12 +814,12 @@ namespace io{
         struct set_to_max_on_overflow{
                 template<class T>
                 static void on_overflow(T&x){
-                        x = std::numeric_limits<T>::max();
+                        x = (std::numeric_limits<T>::max)();
                 }
                
                 template<class T>
                 static void on_underflow(T&x){
-                        x = std::numeric_limits<T>::min();
+                        x = (std::numeric_limits<T>::min)();
                 }
         };
 
@@ -948,7 +948,7 @@ namespace io{
                         while(*col != '\0'){
                                 if('0' <= *col && *col <= '9'){
                                         T y = *col - '0';
-                                        if(x > (std::numeric_limits<T>::max()-y)/10){
+                                        if(x > ((std::numeric_limits<T>::max)()-y)/10){
                                                 overflow_policy::on_overflow(x);
                                                 return;
                                         }
@@ -979,7 +979,7 @@ namespace io{
                                 while(*col != '\0'){
                                         if('0' <= *col && *col <= '9'){
                                                 T y = *col - '0';
-                                                if(x < (std::numeric_limits<T>::min()+y)/10){
+                                                if(x < ((std::numeric_limits<T>::min)()+y)/10){
                                                         overflow_policy::on_underflow(x);
                                                         return;
                                                 }

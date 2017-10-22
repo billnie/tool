@@ -21,6 +21,33 @@ namespace attrs = boost::log::attributes;
 namespace src = boost::log::sources;
 namespace expr = boost::log::expressions;
 namespace keywords = boost::log::keywords;
+void DT(const char * strOutputString, ...)
+{
+#ifdef NDEBUG
+	return;
+#endif
+	char strBuffer[4096] = { 0 };
+	va_list vlArgs;
+	va_start(vlArgs, strOutputString);
+	//	_vsnprintf(strBuffer, sizeof(strBuffer) - 1, strOutputString, vlArgs);
+	vsprintf(strBuffer, strOutputString, vlArgs);
+	va_end(vlArgs);
+
+	SYSTEMTIME sTime;
+	GetLocalTime(&sTime);
+	TCHAR chBuf[100] = { 0 };
+	//wsprintf(chBuf,_T("%u/%u/%u %u:%u:%u:%u %d\r\n"),sTime.wYear, sTime.wMonth, sTime.wDay,sTime.wHour, sTime.wMinute, sTime.wSecond,
+	//	sTime.wMilliseconds,sTime.wDayOfWeek);
+	wsprintf(chBuf, _T("%02u:%02u:%02u-->"), sTime.wHour, sTime.wMinute, sTime.wSecond,
+		sTime.wMilliseconds);
+	OutputDebugStringA(chBuf);
+#ifdef _DEBUG
+	BOOST_LOG_TRIVIAL(info) << strBuffer;
+#endif
+	OutputDebugStringA(strBuffer);
+	OutputDebugStringA("\r\n");
+}
+
 namespace str
 {
 	int initlog(std::string file) {

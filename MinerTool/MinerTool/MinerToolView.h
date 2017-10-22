@@ -56,8 +56,11 @@ public:
 	CTabCtrl m_tabCtrl;
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult);
+	int asyn_execLua(LPCTSTR function, int start, int end ,string data);
+	static int s_execLua(LPCTSTR function, int ,int ,string, CMinerToolView*mk);
 	int m_nMin;
 	int m_nMax;
+	static int updateRequst(int type, string host, string data,void*);
 };
 
 #ifndef _DEBUG  // MinerToolView.cpp 中的调试版本

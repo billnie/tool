@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <cassert>
-
+void DT(const char * strOutputString, ...);
 //#pragma once
 #ifndef __STR_STR_HPP_INCLUDED_
 #define __STR_STR_HPP_INCLUDED_
