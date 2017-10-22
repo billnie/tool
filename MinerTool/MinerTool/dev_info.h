@@ -2,6 +2,8 @@
 #include <string>  
 #include <sstream>  
 #include <vector>  
+#include <boost/property_tree/ptree.hpp>  
+
 using namespace std;
 class dev_item {
 public:
@@ -11,7 +13,6 @@ public:
 	string Enabled;
 	string Status;
 	int MHSav;
-	int Status;
 	int MHS5s;
 	int MHS1m;
 	int MHS5m;
@@ -21,6 +22,8 @@ public:
 	int HardwareErrors;
 	int DeviceElapsed;
 	int temperature;
+
+	bool parseFromPTree(boost::property_tree::ptree  &pItem);
 };
 class dev_status {
 public:
@@ -29,6 +32,8 @@ public:
 	string Description;
 	string Msg;
 	int When;
+
+	bool parseFromPTree(boost::property_tree::ptree  &pItem);
 };
 class dev_info
 {
@@ -47,7 +52,5 @@ public:
 	vector<dev_item> items;
 	vector<dev_status>status;
 private:
-
-public:	
 };
 
