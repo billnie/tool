@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="csv">
+      <UniqueIdentifier>{4fc45fbe-e028-43db-8fa8-1ba495f480e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -60,6 +63,21 @@
     <ClInclude Include="stlstr.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="csv.h">
+      <Filter>csv</Filter>
+    </ClInclude>
+    <ClInclude Include="csv\csv.hpp">
+      <Filter>csv</Filter>
+    </ClInclude>
+    <ClInclude Include="csv\document.hpp">
+      <Filter>csv</Filter>
+    </ClInclude>
+    <ClInclude Include="csv\types.hpp">
+      <Filter>csv</Filter>
+    </ClInclude>
+    <ClInclude Include="csv\writer.hpp">
+      <Filter>csv</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MinerTool.cpp">
@@ -97,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="stlstr.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="writer.cpp">
+      <Filter>csv</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

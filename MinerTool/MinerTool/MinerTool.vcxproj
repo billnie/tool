@@ -97,6 +97,7 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>F:\dev\vc\boost_1_63_0\vs\include\boost-1_63;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -194,6 +195,11 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="csv.h" />
+    <ClInclude Include="csv\csv.hpp" />
+    <ClInclude Include="csv\document.hpp" />
+    <ClInclude Include="csv\types.hpp" />
+    <ClInclude Include="csv\writer.hpp" />
     <ClInclude Include="dev_info.h" />
     <ClInclude Include="dev_pool.h" />
     <ClInclude Include="DialogFirmware.h" />
@@ -227,6 +233,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="stlstr.cpp" />
+    <ClCompile Include="writer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MinerTool.rc" />

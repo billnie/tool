@@ -36,4 +36,5 @@ public:
 	int newSearch(string host,int min, int max);
 	int newSearch(vector<string>&vs);
 	CComboBox m_typePool;
+	afx_msg void OnBnClickedBtnExport();
 };

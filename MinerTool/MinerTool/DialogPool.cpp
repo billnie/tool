@@ -16,6 +16,8 @@
 
 #include <boost/property_tree/ptree.hpp>    
 #include <boost/property_tree/ini_parser.hpp>  
+#include "csv/writer.hpp"
+
 // CDialogPool 对话框
 #include	"stlstr.h"
 using namespace str;
@@ -268,5 +270,35 @@ int CDialogPool::newSearch(vector<string>&vs) {
 
 void CDialogPool::OnBnClickedBtnExport()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	BOOL isOpen = FALSE;        //是否打开(否则为保存)  
+	CString defaultDir = "";   //默认打开的文件路径  
+	CString fileName = "";         //默认打开的文件名  
+	CString filter = "文件 (*.csv)|*.csv||";   //文件过虑的类型  
+	CFileDialog openFileDlg(isOpen, defaultDir, fileName, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, filter, NULL);
+
+	INT_PTR result = openFileDlg.DoModal();
+	CString filePath ;
+	if (result==IDOK) {
+		filePath = openFileDlg.GetPathName();
+		std::ofstream file;
+		file.open((LPCTSTR)filePath);
+		int i, n;
+		CString s;
+		n = m_listCtrl.GetItemCount();
+		Csv::Writer writer(file, ';');
+		Csv::Row header, row;
+		header.push_back("No");
+		header.push_back("ip");
+		writer.insert(header);
+		for (i = 0; i < n; i++) {
+			Csv::Row  row;
+			row.push_back(str::format("%d", i + 1));
+			s = m_listCtrl.GetItemText(i, 0);
+			row.push_back((LPCTSTR)s);
+			writer.insert(row);
+		}
+
+		file.close();
+	}
+
 }
