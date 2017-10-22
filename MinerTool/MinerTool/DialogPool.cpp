@@ -300,7 +300,6 @@ void CDialogPool::OnBnClickedBtnExport()
 			row.push_back((LPCTSTR)s);
 			writer.insert(row);
 		}
-
 		file.close();
 	}
 
