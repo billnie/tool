@@ -43,6 +43,7 @@ BEGIN_MESSAGE_MAP(CDialogPool, CDialogEx)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, &CDialogPool::OnLvnItemchangedList1)
 	ON_BN_CLICKED(IDC_BTN_CHECK, &CDialogPool::OnBnClickedBtnCheck)
 	ON_BN_CLICKED(IDC_BTN_SET, &CDialogPool::OnBnClickedBtnSet)
+	ON_BN_CLICKED(IDC_BTN_EXPORT, &CDialogPool::OnBnClickedBtnExport)
 END_MESSAGE_MAP()
 
 
@@ -263,4 +264,9 @@ int CDialogPool::newSearch(vector<string>&vs) {
 		it++;
 	}
 	return 0;
+}
+
+void CDialogPool::OnBnClickedBtnExport()
+{
+	// TODO: 在此添加控件通知处理程序代码
 }
