@@ -2,8 +2,12 @@
 
 #include	 "stlstr.h"
 #include "StdAfx.h"
-
+#include <io.h>  
+#include <fcntl.h> 
+#include<fstream>
 #include <iostream>
+#include <istream>
+#include <ostream>
 #include <boost/log/core.hpp>
 #include <boost/log/trivial.hpp>
 #include <boost/log/expressions.hpp>
@@ -21,6 +25,8 @@ namespace attrs = boost::log::attributes;
 namespace src = boost::log::sources;
 namespace expr = boost::log::expressions;
 namespace keywords = boost::log::keywords;
+using namespace std;
+using std::string;
 void DT(const char * strOutputString, ...)
 {
 #ifdef NDEBUG
@@ -50,6 +56,35 @@ void DT(const char * strOutputString, ...)
 
 namespace str
 {
+	int read_file(std::vector<std::string> &data, std::string szFile)
+	{
+		data.clear();
+		//
+		std::ifstream file_(szFile.c_str(), std::ios::in);
+		//std::wifstream file_;
+		//file_.open(szFile.c_str(), std::ios::in);
+		if (!file_) return -1;
+		const int bufsize = 512;
+		char strbuf[bufsize];
+		//
+		while (!file_.eof())
+		{
+			file_.getline(strbuf, bufsize);
+			string sentence = strbuf;
+			if (sentence.empty())
+			{
+				continue;
+			}
+			data.push_back(sentence);
+		}
+		file_.close();
+		//
+		if (data.size() < 1)
+		{
+			return -1;
+		}
+		return 0;
+	}
 	int initlog(std::string file) {
 		// 设置此对话框的图标。当应用程序主窗口不是对话框时，框架将自动
 		//  执行此操作

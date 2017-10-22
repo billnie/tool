@@ -17,6 +17,7 @@ IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_CREATE()
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -61,6 +62,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
 	EnableDocking(CBRS_ALIGN_ANY);
 	DockControlBar(&m_wndToolBar);
+	m_wndStatusBar.SetPaneInfo(1, ID_INDICATOR_CAPS, SBPS_NORMAL, 120);
+	m_wndStatusBar.SetPaneInfo(2, ID_INDICATOR_NUM, SBPS_NORMAL, 120);
 //	m_wndStatusBar.HideCaret();
 //	m_wndToolBar.show(FALSE, FALSE, TRUE);
 //	SetMenu(NULL);
@@ -70,6 +73,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, 0);
 	ShowControlBar(&m_wndToolBar, SW_HIDE, 0);
 	MoveWindow(rcWorkArea.Width()/2-w/2, rcWorkArea.Height()/2-h/2, w, h, 0);
+	SetTimer(1, 1000, NULL);
 	return 0;
 }
 
@@ -106,3 +110,16 @@ void CMainFrame::Dump(CDumpContext& dc) const
 
 // CMainFrame 消息处理程序
 
+
+
+void CMainFrame::OnTimer(UINT_PTR nIDEvent)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	CTime t = CTime::GetCurrentTime();
+	CString str;
+	str.Format("%04d/%02d/%02d  %02d:%02d:%02d", t.GetYear(), t.GetMonth(), t.GetDay(), t.GetHour(), t.GetMinute(), t.GetSecond());
+	m_wndStatusBar.SetPaneText(1, str);
+	m_wndStatusBar.SetPaneText(2, str);
+	CFrameWnd::OnTimer(nIDEvent);
+}
