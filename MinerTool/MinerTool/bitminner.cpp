@@ -202,42 +202,43 @@ namespace bitminner {
 	void AnsyncMinerRequst::initdevs(string host, boost::function<void(int, string, string,void*)> f) {
 		alloclen = 2048;
 		buffer = std::unique_ptr<char[]>(new char[alloclen]);
+		std::fill(buffer.get(), buffer.get() + alloclen, 0);
 		reader.init(std::unique_ptr<ByteSourceBase>(new DevsReqst(host)));
 		reader.start_read(buffer.get(), alloclen);
 		len = reader.finish_read();
 		string data;
 		data = buffer.get();
-		f(1,host,data,obj);
+		f(cmdDevs,host,data,obj);
 		reader.start_read(buffer.get()+len, alloclen-len);
-		len++;
 	}
 	void AnsyncMinerRequst::initgetminnser(string host, boost::function<void(int, string, string, void*)> f) {
 		alloclen = 2048;
 		buffer = std::unique_ptr<char[]>(new char[alloclen]);
+		std::fill(buffer.get(), buffer.get() + alloclen, 0);
 		reader.init(std::unique_ptr<ByteSourceBase>(new MinnerReqst(host)));
 		reader.start_read(buffer.get(), alloclen);
 		len = reader.finish_read();
 		string data;
 		data = buffer.get();
-		f(1, host, data, obj);
+		f(cmdgetMinner, host, data, obj);
 		reader.start_read(buffer.get() + len, alloclen - len);
-		len++;
 	}
 	void AnsyncMinerRequst::initsaveminner(string host, string data,boost::function<void(int, string, string, void*)> f) {
 		alloclen = 2048;
 		buffer = std::unique_ptr<char[]>(new char[alloclen]);
+		std::fill(buffer.get(), buffer.get()+alloclen, 0);
 		reader.init(std::unique_ptr<ByteSourceBase>(new MinnerSetReqst(host,data)));
 		reader.start_read(buffer.get(), alloclen);
 		len = reader.finish_read();
 		string da;
 		da = buffer.get();
-		f(1, host, da, obj);
+		f(cmdsaveMinner, host, da, obj);
 		reader.start_read(buffer.get() + len, alloclen - len);
-		len++;
 	}
 	void AnsyncMinerRequst::initdevslist(string host,int start, int end, boost::function<void(int, string, string, void*)> f) {
 		alloclen = 2048;
 		buffer = std::unique_ptr<char[]>(new char[alloclen]);
+		std::fill(buffer.get(), buffer.get() + alloclen, 0);
 		int i;
 		string ss;
 		for (i = start; i < end; i++) {
@@ -248,10 +249,9 @@ namespace bitminner {
 			len = rd.finish_read();
 			string data;
 			if(len >0) data = buffer.get();
-			f(1, ss, data, obj);
+			f(cmdDevs, ss, data, obj);
 			rd.start_read(buffer.get() + len, alloclen - len);
 		}
-		len++;
 	}
 }
 

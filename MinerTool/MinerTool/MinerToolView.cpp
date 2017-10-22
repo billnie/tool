@@ -191,19 +191,29 @@ CMinerToolDoc* CMinerToolView::GetDocument() const // 非调试版本是内联的
 int CMinerToolView::asyn_execLua(LPCTSTR function, int start, int end, string data) {
 	int ret = -1;
 	string s = function;
-	boost::function<int(LPCTSTR function, int star, int end, string data, CMinerToolView*)> func;
+	boost::function<int(string function, int star, int end, string data, CMinerToolView*)> func;
 	func = &CMinerToolView::s_execLua;
-	boost::thread downloadThread = boost::thread(boost::bind(func, function, start, end, data,this));
+	boost::thread downloadThread = boost::thread(boost::bind(func, s, start, end, data,this));
 	return ret;
 }
-int CMinerToolView::s_execLua(LPCTSTR shost,int start,int end,string data, CMinerToolView*mk)
+int CMinerToolView::s_execLua(string shost,int start,int end,string data, CMinerToolView*mk)
 {
 	string  host;
 	host = shost;
 	boost::function<void(int,string, string,void*)> f = &CMinerToolView::updateRequst;
 	boost::shared_ptr<bitminner::AnsyncMinerRequst> mq(new bitminner::AnsyncMinerRequst);
 	mq->obj = (void*)mk;
-	mq->initdevslist(host,start,end, f);
+	if (end == 0) {
+		if (start == 2) {
+			mq->initgetminnser(host,f);
+		}
+		else if (start == 3) {
+			mq->initsaveminner(host, data,f);
+		}
+	}
+	else {
+		mq->initdevslist(host, start, end, f);
+	}
 	return 0;
 }
 void CMinerToolView::OnBnClickedBtnOk()
@@ -350,26 +360,50 @@ int CMinerToolView::updateRequst(int type, string host, string data, void*obj)
 	CMinerToolView *mv;
 	mv = (CMinerToolView*)obj;
 
-	dev_info info;
-	std::istringstream iss;
-	iss.str(data.c_str());
-	boost::property_tree::ptree parser;
-	boost::property_tree::ptree sms_array = parser.get_child(dev_info::DEVS);
-	BOOST_FOREACH(boost::property_tree::ptree::value_type &v, sms_array)
-	{
-		boost::property_tree::ptree p = v.second;
-		dev_item it;
-		it.parseFromPTree(p);
-		info.items.push_back(it);
+	switch (type) {
+	case bitminner::cmdDevs:
+		break;
+	case bitminner::cmdgetMinner:
+		break;
+	case bitminner::cmdsaveMinner:
+		break;
 	}
-	boost::property_tree::ptree array = parser.get_child(dev_info::STATUS);
-	BOOST_FOREACH(boost::property_tree::ptree::value_type &v, array)
-	{
-		boost::property_tree::ptree p = v.second;
-		dev_status it;
-		it.parseFromPTree(p);
-		info.status.push_back(it);
-	}
-	//addListNote(info, host);
+	return 0;
+}
+
+
+int CMinerToolView::GetMinnerInfo(LPCTSTR host)
+{
+	asyn_execLua((LPCTSTR)host, 2, 0, "");
+	return 0;
+}
+
+
+int CMinerToolView::SaveMinnerInfo(LPCTSTR host, LPCTSTR info)
+{
+	dev_pools dps;
+	dev_pool dp;
+	string s;
+	dp.url = "stratum_ltc.bw1.com:8888";
+	dp.username = "jjyykk.L13";
+	dp.password = "123123";
+	dp.bPrefix = true;
+	dps.pools.push_back(dp);
+
+	dp.url = "stratum_ltc.bw1.com:8888";
+	dp.username = "jjyykk.L23";
+	dp.password = "123123";
+	dp.bPrefix = true;
+	dps.pools.push_back(dp);
+
+	dp.url = "stratum_ltc.bw1.com:8888";
+	dp.username = "jjyykk.L24";
+	dp.password = "123123";
+	dp.bPrefix = true;
+	dps.pools.push_back(dp);
+
+	dps.Frequency = 648;
+	s = dps.urlcodestring();
+	asyn_execLua((LPCTSTR)host, 3, 0, s);
 	return 0;
 }

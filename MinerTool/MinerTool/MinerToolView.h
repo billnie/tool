@@ -7,6 +7,7 @@
 #include	"DialogVol.h"
 #include	"DialogPool.h"
 #include "DialogFirmware.h"
+class CMinerToolDoc;
 class CMinerToolView : public CFormView
 {
 protected: // 仅从序列化创建
@@ -57,10 +58,12 @@ public:
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnSelchangeTab1(NMHDR *pNMHDR, LRESULT *pResult);
 	int asyn_execLua(LPCTSTR function, int start, int end ,string data);
-	static int s_execLua(LPCTSTR function, int ,int ,string, CMinerToolView*mk);
+	static int s_execLua(string function, int ,int ,string, CMinerToolView*mk);
 	int m_nMin;
 	int m_nMax;
 	static int updateRequst(int type, string host, string data,void*);
+	int GetMinnerInfo(LPCTSTR host);
+	int SaveMinnerInfo(LPCTSTR host, LPCTSTR info);
 };
 
 #ifndef _DEBUG  // MinerToolView.cpp 中的调试版本

@@ -19,6 +19,11 @@
 #include <boost/function.hpp>  
 using namespace std;
 namespace bitminner {
+	enum {
+		cmdDevs = 1,
+		cmdgetMinner,
+		cmdsaveMinner,
+	};
 	string xdevs(string host, int &ret);
 	string xgetminner(string host, int &ret);
 	string xpoolset(string host, string data, int &ret);

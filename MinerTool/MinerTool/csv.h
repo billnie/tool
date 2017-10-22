@@ -356,7 +356,6 @@ namespace io{
                                 reader.start_read(buffer.get() + 2*block_len, block_len);
                         }
                 }
-
         public:
                 LineReader() = delete;
                 LineReader(const LineReader&) = delete;

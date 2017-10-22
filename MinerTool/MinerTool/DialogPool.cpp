@@ -5,7 +5,7 @@
 #include "MinerTool.h"
 #include "DialogPool.h"
 #include "afxdialogex.h"
-
+#include "MinerToolView.h"
 #include <boost/progress.hpp>  
 #include "sstream"  
 #include <boost/property_tree/ptree.hpp>  
@@ -225,12 +225,45 @@ int CDialogPool::saveParam()
 
 void CDialogPool::OnBnClickedBtnCheck()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	int ret = -1;
+	int cnt;
+	CString str;
+	cnt = m_listCtrl.GetItemCount();
+	if (cnt > 0) {
+		POSITION pos;
+		pos = m_listCtrl.GetFirstSelectedItemPosition();
+		if (pos) {
+			cnt = m_listCtrl.GetNextSelectedItem(pos);
+			str = m_listCtrl.GetItemText(cnt, 0);
+			CMinerToolView *form;
+			form = (CMinerToolView *)GetParent()->GetParent();
+			if (form) {
+				form->GetMinnerInfo(str);
+			}
+		}
+	}
 }
 
 
 void CDialogPool::OnBnClickedBtnSet()
 {
+	int ret = -1;
+	int cnt;
+	CString str,s;
+	cnt = m_listCtrl.GetItemCount();
+	if (cnt > 0) {
+		POSITION pos;
+		pos = m_listCtrl.GetFirstSelectedItemPosition();
+		if (pos) {
+			cnt = m_listCtrl.GetNextSelectedItem(pos);
+			str = m_listCtrl.GetItemText(cnt, 0);
+			CMinerToolView *form;
+			form = (CMinerToolView *)GetParent()->GetParent();
+			if (form) {
+				form->SaveMinnerInfo(str,s);
+			}
+		}
+	}
 	saveParam();
 }
 
