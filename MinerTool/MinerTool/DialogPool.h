@@ -41,4 +41,5 @@ public:
 	int newSearch(vector<string>&vs);
 	CComboBox m_typePool;
 	afx_msg void OnBnClickedBtnExport();
+	afx_msg LRESULT OnCommonNotify(WPARAM wParam, LPARAM lParam);
 };
