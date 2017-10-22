@@ -165,10 +165,7 @@ int CDialogPool::AddNote(string resp, string host)
 		{
 			boost::property_tree::ptree p = v.second;
 			dev_item it;
-			it.ASC = p.get<std::string>("ASC");
-			it.Name = p.get<std::string>("Name");
-			it.Enabled = p.get<std::string>("Enabled");
-			it.temperature = p.get<double>("temperature");
+			it.parseFromPTree(p);
 			info.items.push_back(it);
 		}
 		boost::property_tree::ptree array = parser.get_child(dev_info::STATUS);
@@ -176,11 +173,7 @@ int CDialogPool::AddNote(string resp, string host)
 		{
 			boost::property_tree::ptree p = v.second;
 			dev_status it;
-			it.Code = p.get<std::string>("Code");
-			it.Description = p.get<std::string>("Description");
-			it.Msg = p.get<std::string>("Msg");
-			it.STATUS = p.get<std::string>("STATUS");
-			it.When = p.get<double>("When");
+			it.parseFromPTree(p);
 			info.status.push_back(it);
 		}
 		addListNote(info, host);
