@@ -127,7 +127,7 @@ void CMinerToolView::OnInitialUpdate()
 	int i = 0;
 	m_tabCtrl.InsertItem(i++, TEXT(" 频率 & 电压 "));
 	m_tabCtrl.InsertItem(i++, TEXT(" 矿池相关 "));
-	m_tabCtrl.InsertItem(i++, TEXT(" 固件升级 "));
+//	m_tabCtrl.InsertItem(i++, TEXT(" 固件升级 "));
 	i = 0;
 	m_pPage[i++] = &m_dlgVol;
 	m_pPage[i++] = &m_dlgPool;
