@@ -7,7 +7,19 @@ class dev_item {
 public:
 	string ASC;
 	string Name;
+	int ID;
 	string Enabled;
+	string Status;
+	int MHSav;
+	int Status;
+	int MHS5s;
+	int MHS1m;
+	int MHS5m;
+	int MHS15m;
+	int Accepted;
+	int Rejected;
+	int HardwareErrors;
+	int DeviceElapsed;
 	int temperature;
 };
 class dev_status {
