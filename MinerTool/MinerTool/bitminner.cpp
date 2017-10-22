@@ -241,7 +241,7 @@ namespace bitminner {
 		std::fill(buffer.get(), buffer.get() + alloclen, 0);
 		int i;
 		string ss;
-		for (i = start; i < end; i++) {
+		for (i = start; i <= end; i++) {
 			AsynchronousReader rd;
 			ss = str::format("%s.%d",host.c_str(), i);
 			rd.init(std::unique_ptr<ByteSourceBase>(new DevsReqst(ss)));

@@ -91,7 +91,7 @@ int CDialogVol::newSearch(string host, int min, int max)
 	string s;
 	int i, cnt;
 	char buf[32];	cnt = 0;
-	for (i = min; i < max; i++) {
+	for (i = min; i <= max; i++) {
 		s = host;	sprintf(buf, ".%d", i);
 		s += buf;
 		cnt = m_listCtrl.InsertItem(cnt, s.c_str());
