@@ -426,9 +426,10 @@ void CMinerToolView::OnBnClickedBtnOk()
 	GetDlgItemText(IDC_EDIT_IP, strIp);
 	GetDlgItemText(IDC_EDIT_IPST, strStart);
 	GetDlgItemText(IDC_EDIT_IPED, strStop);
-	//host = "192.168.3.16";
-	//resp = xdevs(host);
-	
+	host = "192.168.3.16";
+	resp = xdevs(host);
+	m_dlgPool.AddNote(resp, host);
+	return;
 	cregex reg_ip = cregex::compile("(25[0-4]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[1-9])[.](25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])[.](25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9][0-9]|[0-9])");
 	/* 定义正则表达
 	式 */
