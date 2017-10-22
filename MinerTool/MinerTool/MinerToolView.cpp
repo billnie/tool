@@ -224,7 +224,7 @@ void CMinerToolView::OnBnClickedBtnOk()
 	/* 定义正则表达
 	式 */
 	if (regex_match((LPCTSTR)strIp, reg_ip)) {
-		if (strIp.GetLength() > 3 && strStart.GetLength() > 1 && strStop.GetLength() > 1) {
+		if (strIp.GetLength() > 3 && strStart.GetLength() >= 1 && strStop.GetLength() >=1) {
 			int st, ed;
 			st = ::atoi((LPCTSTR)strStart);
 			ed = ::atoi((LPCTSTR)strStop);

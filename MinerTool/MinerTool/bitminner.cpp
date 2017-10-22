@@ -8,56 +8,56 @@
 using boost::asio::ip::tcp;
 void DT(const char * strOutputString, ...);
 namespace bitminner {
-	BOOL ConnectTest(char * m_server, int m_port)
-	{
+	//BOOL ConnectTest(char * m_server, int m_port)
+	//{
 
-		struct hostent* host = NULL;
-		struct sockaddr_in saddr;
-		unsigned int s = 0;
-		BOOL  ret;
-		time_t start;
-		int error;
-		host = gethostbyname(m_server);
-		if (host == NULL)return  FALSE;
+	//	struct hostent* host = NULL;
+	//	struct sockaddr_in saddr;
+	//	unsigned int s = 0;
+	//	BOOL  ret;
+	//	time_t start;
+	//	int error;
+	//	host = gethostbyname(m_server);
+	//	if (host == NULL)return  FALSE;
 
-		saddr.sin_family = AF_INET;
-		saddr.sin_port = htons(m_port);
-		saddr.sin_addr = *((struct in_addr*)host-> h_addr);
+	//	saddr.sin_family = AF_INET;
+	//	saddr.sin_port = htons(m_port);
+	//	saddr.sin_addr = *((struct in_addr*)host-> h_addr);
 
 
-		if ((s = socket(AF_INET, SOCK_STREAM, 0))<0) {
-			return FALSE;
-		}
+	//	if ((s = socket(AF_INET, SOCK_STREAM, 0))<0) {
+	//		return FALSE;
+	//	}
 
-		unsigned long ul = 1;
-		ret = ioctlsocket(s, FIONBIO, (unsigned long*)&ul);
-		if (ret == SOCKET_ERROR)return 0;
+	//	unsigned long ul = 1;
+	//	ret = ioctlsocket(s, FIONBIO, (unsigned long*)&ul);
+	//	if (ret == SOCKET_ERROR)return 0;
 
-		if (connect(s, (struct sockaddr*)&saddr, sizeof(saddr)) == -1) {
-			error = errno;
-			if (errno == EINPROGRESS) {// it is in the connect process
-				struct timeval tv;
-				fd_set writefds;
-				tv.tv_sec = 2;
-				tv.tv_usec = 0;
-				FD_ZERO(&writefds);
-				FD_SET(s, &writefds);
-				if (select(s + 1, NULL, &writefds, NULL, &tv)> 0) {
-					int len = sizeof(int);
-					//下面的一句一定要，主要针对防火墙
-					getsockopt(s, SOL_SOCKET, SO_ERROR,(char*) &error, &len);
-					if (error == 0) ret = TRUE;
-					else ret = FALSE;
-				}
-				else   ret = FALSE;//timeout or error happen
-			}
-			else ret = FALSE;
-		}
-		else    ret = TRUE;
+	//	if (connect(s, (struct sockaddr*)&saddr, sizeof(saddr)) == -1) {
+	//		error = errno;
+	//		if (errno == EINPROGRESS) {// it is in the connect process
+	//			struct timeval tv;
+	//			fd_set writefds;
+	//			tv.tv_sec = 2;
+	//			tv.tv_usec = 0;
+	//			FD_ZERO(&writefds);
+	//			FD_SET(s, &writefds);
+	//			if (select(s + 1, NULL, &writefds, NULL, &tv)> 0) {
+	//				int len = sizeof(int);
+	//				//下面的一句一定要，主要针对防火墙
+	//				getsockopt(s, SOL_SOCKET, SO_ERROR,(char*) &error, &len);
+	//				if (error == 0) ret = TRUE;
+	//				else ret = FALSE;
+	//			}
+	//			else   ret = FALSE;//timeout or error happen
+	//		}
+	//		else ret = FALSE;
+	//	}
+	//	else    ret = TRUE;
 
-	//	close(s);
-		return ret;
-	}
+	////	close(s);
+	//	return ret;
+	//}
 	int post(const string& host, const string& port, const string& page, const string& data, string& reponse_data)
 	{
 		try
